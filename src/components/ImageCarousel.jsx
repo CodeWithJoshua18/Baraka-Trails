@@ -4,25 +4,25 @@ import Button from './Button';
 
 const slides = [
   {
-    img: 'public/images/2.jpg',
+    img: '/images/2.jpg',
     title: 'Safari Adventures',
     desc: 'Experience the wild like never before with our curated safari trips.',
     href: '#safari',
   },
   {
-    img: 'public/images/3.jpg',
+    img: '/images/3.jpg',
     title: 'Mountain Expeditions',
     desc: 'Conquer Africa’s tallest peaks safely with expert guides.',
     href: '#climbing',
   },
   {
-    img: 'public/images/4.jpg',
+    img: '/images/4.jpg',
     title: 'Hidden Destinations',
     desc: 'Discover breathtaking locations off the beaten path.',
     href: '#destinations',
   },
   {
-    img: 'public/images/5.jpg',
+    img: '/images/5.jpg',
     title: 'Luxury Getaways',
     desc: 'Relax and unwind at premium resorts with amazing views.',
     href: '#offers',

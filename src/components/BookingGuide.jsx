@@ -68,7 +68,7 @@ const BookingGuide = () => {
           viewport={{ once: true, amount: 0.3 }}
         >
           <img
-            src="public/images/1.jpg"
+            src="/images/1.jpg"
             alt="Booking guide"
             className="w-full h-full rounded-xl shadow-lg object-cover"
             loading="lazy"
