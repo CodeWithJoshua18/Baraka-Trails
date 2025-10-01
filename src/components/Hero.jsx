@@ -3,8 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Button from './Button';
 
 const slides = [
-  { title: 'Climb Kilimanjaro', desc: 'Reach the roof of Africa with guided tours.', href: '#climbing', img: '/images/7.jpg' },
-  { title: 'Safari Adventures', desc: 'Experience the wild like never before.', href: '#safari', img: '/images/8.jpg' },
+  { title: 'Climb Kilimanjaro', desc: 'Reach the roof of Africa with guided tours.', href: '#climbing', img: '/images/8.jpg' },
+  { title: 'Safari Adventures', desc: 'Experience the wild like never before.', href: '#safari', img: '/images/7.jpg' },
   { title: 'Discover Destinations', desc: 'Breathtaking locations curated for you.', href: '#destinations', img: '/images/9.jpg' },
 ];
 
