@@ -36,7 +36,7 @@ const Hero = () => {
       {/* Background Image */}
       <div
         className="absolute inset-0 w-full h-full bg-center bg-cover"
-        style={{ backgroundImage: `url('public/images/7.jpg')` }}
+        style={{ backgroundImage: `url('/images/7.jpg')` }}
       />
 
       {/* Overlay for readability */}
