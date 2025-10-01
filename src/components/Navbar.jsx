@@ -1,4 +1,6 @@
+// src/components/Navbar.jsx
 import { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, Mountain } from 'lucide-react';
 import Button from './Button';
@@ -6,6 +8,7 @@ import Button from './Button';
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
@@ -14,11 +17,11 @@ const Navbar = () => {
   }, []);
 
   const navLinks = [
-    { name: 'Climbing Kilimanjaro', href: '#climbing' },
-    { name: 'Safari', href: '#safari' },
-    { name: 'Destinations', href: '#destinations' },
-    { name: 'About Us', href: '#about' },
-    { name: 'Blog', href: '#blog' },
+    { name: 'Climbing Kilimanjaro', path: '/climbing' },
+    { name: 'Safari', path: '/safari' },
+    { name: 'Destinations', path: '/destinations' },
+    { name: 'About Us', path: '/about' },
+    { name: 'Blog', path: '/blog' },
   ];
 
   const textColor = isScrolled ? 'text-black' : 'text-white';
@@ -43,18 +46,20 @@ const Navbar = () => {
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center gap-8">
             {navLinks.map((link) => (
-              <a
+              <Link
                 key={link.name}
-                href={link.href}
+                to={link.path}
                 className={`relative font-medium transition-colors duration-300 group ${textColor} group-hover:text-[#D4AF37]`}
               >
                 {link.name}
                 <span className="absolute left-0 -bottom-1 h-[2px] w-0 bg-[#D4AF37] transition-all group-hover:w-full"></span>
-              </a>
+              </Link>
             ))}
-            <Button className="bg-[#D4AF37] text-[#3E2F1C] hover:bg-[#C49E2C]">
-              Enquire
-            </Button>
+            <Link to="/enquire">
+              <Button className="bg-[#D4AF37] text-[#3E2F1C] hover:bg-[#C49E2C]">
+                Enquire
+              </Button>
+            </Link>
           </div>
 
           {/* Mobile Menu Toggle */}
@@ -98,21 +103,24 @@ const Navbar = () => {
               </button>
 
               {navLinks.map((link) => (
-                <a
+                <Link
                   key={link.name}
-                  href={link.href}
+                  to={link.path}
                   onClick={() => setIsMobileMenuOpen(false)}
                   className="text-white text-2xl font-bold hover:text-[#D4AF37] transition-colors"
                 >
                   {link.name}
-                </a>
+                </Link>
               ))}
-              <Button
-                className="bg-[#D4AF37] text-[#3E2F1C] hover:bg-[#C49E2C] px-8 py-3 font-bold"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                Enquire
-              </Button>
+
+              <Link to="/enquire">
+                <Button
+                  className="bg-[#D4AF37] text-[#3E2F1C] hover:bg-[#C49E2C] px-8 py-3 font-bold"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Enquire
+                </Button>
+              </Link>
             </motion.div>
           </>
         )}
