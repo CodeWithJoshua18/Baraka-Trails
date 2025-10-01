@@ -3,46 +3,37 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Button from './Button';
 
 const slides = [
-  {
-    title: 'Climb Kilimanjaro',
-    desc: 'Reach the roof of Africa with guided tours.',
-    href: '#climbing',
-  },
-  {
-    title: 'Safari Adventures',
-    desc: 'Experience the wild like never before.',
-    href: '#safari',
-  },
-  {
-    title: 'Discover Destinations',
-    desc: 'Breathtaking locations curated for you.',
-    href: '#destinations',
-  },
+  { title: 'Climb Kilimanjaro', desc: 'Reach the roof of Africa with guided tours.', href: '#climbing', img: '/images/7.jpg' },
+  { title: 'Safari Adventures', desc: 'Experience the wild like never before.', href: '#safari', img: '/images/8.jpg' },
+  { title: 'Discover Destinations', desc: 'Breathtaking locations curated for you.', href: '#destinations', img: '/images/9.jpg' },
 ];
 
 const Hero = () => {
   const [carouselIndex, setCarouselIndex] = useState(0);
 
+  // Preload images
+  useEffect(() => {
+    slides.forEach(slide => {
+      const img = new Image();
+      img.src = slide.img;
+    });
+  }, []);
+
   useEffect(() => {
     const interval = setInterval(() => {
       setCarouselIndex((prev) => (prev + 1) % slides.length);
     }, 5000);
-
     return () => clearInterval(interval);
   }, []);
 
   return (
     <section className="relative w-full h-screen overflow-hidden">
-      {/* Background Image */}
       <div
-        className="absolute inset-0 w-full h-full bg-center bg-cover"
-        style={{ backgroundImage: `url('/images/7.jpg')` }}
+        className="absolute inset-0 w-full h-full bg-center bg-cover transition-all duration-700"
+        style={{ backgroundImage: `url(${slides[carouselIndex].img})` }}
       />
-
-      {/* Overlay for readability */}
       <div className="absolute inset-0 bg-black/40"></div>
 
-      {/* Carousel Text */}
       <div className="relative z-10 flex flex-col justify-center h-full px-6 md:px-20 max-w-3xl text-white">
         <AnimatePresence mode="wait">
           <motion.div
