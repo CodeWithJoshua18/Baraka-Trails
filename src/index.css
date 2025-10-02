@@ -34,7 +34,7 @@ h1, h2, h3, h4, h5, h6 {
   --gold: #D4AF37;        /* subtle gold for accents */
   --gold-dark: #C49E2C;   /* darker gold for hover */
   --dark-gray: #1f1f1f;   /* background dark shade */
-  --soft-white: #f5f5f5;  /* primary text color */
+  --soft-white: #000000;  /* primary text color */
 /* secondary text / description */
 }
 

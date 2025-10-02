@@ -1,10 +1,17 @@
-// src/pages/Enquire.jsx
+
+
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Home } from 'lucide-react';
 import Button from '../components/Button';
 import { useNavigate } from 'react-router-dom';
 import emailjs from '@emailjs/browser';
+
+/**
+ * NOTE:
+ * - If you want full international phone input with flags + search, replace the select + input
+ *   with `react-phone-input-2` as discussed earlier.
+ */
 
 const questions = [
   { id: 1, text: 'Where would you like to travel?', options: ['Safari', 'Climbing', 'Destinations', 'Open to ideas'] },
@@ -15,21 +22,12 @@ const questions = [
   { id: 6, text: 'Your age?', options: ['<18', '18-25', '26-40', '41-60', '60+'] },
 ];
 
+// small fallback list — can be swapped out for a full dataset or react-phone-input-2
 const countryCodes = [
-  { code: '+1', name: 'USA' },
-  { code: '+44', name: 'UK' },
-  { code: '+254', name: 'Kenya' },
-  { code: '+91', name: 'India' },
-  { code: '+61', name: 'Australia' },
-  { code: '+49', name: 'Germany' },
-  { code: '+33', name: 'France' },
-  { code: '+81', name: 'Japan' },
-  { code: '+7', name: 'Russia' },
-  { code: '+39', name: 'Italy' },
-  { code: '+27', name: 'South Africa' },
-  { code: '+55', name: 'Brazil' },
-  { code: '+34', name: 'Spain' },
-  { code: '+86', name: 'China' },
+  { name: "Kenya", code: "+254" },
+  { name: "Tanzania", code: "+255" },
+  { name: "Uganda", code: "+256" },
+  { name: "USA", code: "+1" },
 ];
 
 export default function Enquire() {
@@ -48,16 +46,22 @@ export default function Enquire() {
   });
 
   const handleOptionClick = (option) => {
-    setAnswers({ ...answers, [questions[currentStep].id]: option });
+    setAnswers((prev) => ({ ...prev, [questions[currentStep].id]: option }));
     setCurrentStep((prev) => prev + 1);
   };
 
   const handleBack = () => {
+    if (acceptedTerms) {
+      // if showing form, go back to terms
+      setAcceptedTerms(false);
+      setCurrentStep(questions.length);
+      return;
+    }
     if (currentStep > 0) setCurrentStep((prev) => prev - 1);
   };
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
   const handleFormSubmit = (e) => {
@@ -72,6 +76,7 @@ export default function Enquire() {
       answers: JSON.stringify(answers, null, 2),
     };
 
+    // Replace SERVICE_ID, TEMPLATE_ID, PUBLIC_KEY with your EmailJS credentials
     emailjs
       .send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', templateParams, 'YOUR_PUBLIC_KEY')
       .then(() => {
@@ -85,176 +90,245 @@ export default function Enquire() {
   };
 
   const cardVariants = {
-    initial: { opacity: 0, y: 50 },
+    initial: { opacity: 0, y: 30 },
     animate: { opacity: 1, y: 0 },
-    exit: { opacity: 0, y: -50 },
+    exit: { opacity: 0, y: -20 },
   };
 
+  // mobile progress percent
+  const percent = Math.round((Math.min(currentStep, questions.length) / questions.length) * 100);
+
   return (
-    <div className="min-h-screen bg-[#fefcf7] flex flex-col items-center px-6 py-10">
-      {/* Logo */}
-      <div className="flex items-center gap-3 mb-6">
-        <img src="/images/logo.png" alt="Baraka Trails" className="w-12 h-12" />
-        <h1 className="text-3xl font-bold text-gray-800">Baraka Trails</h1>
+    <div className="min-h-screen flex flex-col md:flex-row">
+      {/* Image side (visible on mobile as top banner, and left-half on md+) */}
+      <div className="w-full md:w-1/2 relative h-56 md:h-screen">
+        <img
+          src="/images/safari.jpg"
+          alt="Baraka Trails - Safari"
+          className="w-full h-full object-cover"
+        />
+        {/* overlay text (blend with image but readable) */}
+        <div className="absolute inset-0 bg-black/35 flex items-center justify-center px-6">
+          <div className="text-center">
+            <h1
+              style={{ color: '#fff' }}
+              className="text-2xl md:text-4xl font-extrabold drop-shadow-lg"
+            >
+              Baraka Trails
+            </h1>
+            <p
+              style={{ color: '#fff' }}
+              className="mt-2 text-sm md:text-lg drop-shadow-sm"
+            >
+              Travel is more than visiting places — it’s creating stories that last a lifetime.
+            </p>
+          </div>
+        </div>
       </div>
 
-      {/* Back arrow */}
-      {currentStep > 0 && (
-        <button
-          onClick={handleBack}
-          className="self-start mb-6 flex items-center gap-1 text-gray-700 hover:text-[#D4AF37] transition-colors"
+      {/* Questionnaire side */}
+      <div
+        className="flex-1 flex flex-col items-center px-4 py-8 md:px-10 relative min-h-screen w-full"
+        style={{ background: "linear-gradient(to bottom right, #f9f9f9, #eaeaea)" }}
+      >
+        {/* floating Home button (glowing) */}
+        <motion.button
+          onClick={() => navigate('/')}
+          whileHover={{ scale: 1.06, boxShadow: "0 0 18px rgba(212,175,55,0.9)" }}
+          whileTap={{ scale: 0.97 }}
+          className="fixed top-4 right-4 md:top-6 md:right-6 bg-[#D4AF37] text-white p-3 rounded-full shadow-lg z-40"
+          aria-label="Back to home"
         >
-          <ArrowLeft className="w-6 h-6" /> Back
-        </button>
-      )}
+          <Home className="w-5 h-5 md:w-6 md:h-6" />
+        </motion.button>
 
-      <section className="w-full max-w-4xl flex flex-col items-center">
-        {/* Questions */}
-        <AnimatePresence exitBeforeEnter>
-          {currentStep < questions.length && (
-            <motion.div
-              key={questions[currentStep].id}
-              variants={cardVariants}
-              initial="initial"
-              animate="animate"
-              exit="exit"
-              transition={{ duration: 0.5 }}
-              className="bg-white rounded-3xl shadow-2xl p-10 mb-10 w-full text-center"
+        <div className="relative z-10 w-full">
+          {/* small back link (inside content) */}
+          {currentStep > 0 && (
+            <button
+              onClick={handleBack}
+              className="self-start mb-4 flex items-center gap-2"
+              style={{ color: '#000' }}
             >
-              <h2 className="text-3xl font-bold mb-6 text-gray-800">{questions[currentStep].text}</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {questions[currentStep].options.map((opt) => (
-                  <Button
-                    key={opt}
-                    onClick={() => handleOptionClick(opt)}
-                    className="bg-[#D4AF37] text-white hover:bg-[#C49E2C] py-3 px-6 rounded-xl font-semibold shadow-md transition"
-                  >
-                    {opt}
-                  </Button>
-                ))}
-              </div>
-              <div className="w-full bg-gray-300 rounded-full h-3 mt-8">
-                <div
-                  className="bg-[#D4AF37] h-3 rounded-full transition-all duration-300"
-                  style={{ width: `${(currentStep / questions.length) * 100}%` }}
-                />
-              </div>
-            </motion.div>
+              <ArrowLeft className="w-4 h-4" />
+              <span style={{ color: '#000' }}>Back</span>
+            </button>
           )}
-        </AnimatePresence>
 
-        {/* Terms */}
-        {currentStep === questions.length && !acceptedTerms && (
-          <motion.div
-            key="terms"
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="bg-white rounded-3xl shadow-2xl p-10 mb-10 w-full text-gray-800"
-          >
-            <h2 className="text-3xl font-bold mb-6 text-center text-gray-800">🌍 Adventure Awaits - Let's Go!</h2>
-            <div className="max-h-96 overflow-y-auto mb-6 text-left space-y-4 text-gray-700 leading-relaxed px-4">
-              <p className="font-semibold text-lg text-[#D4AF37]">Terms & Conditions</p>
-              <p>
-                {/* ===== YOUR TERMS AND CONDITIONS GO HERE ===== */}
-                Welcome, adventurer! Before we embark on this incredible journey together, please take a moment to review our terms and conditions.
-              </p>
-              <p>
-                [INSERT YOUR FULL TERMS AND CONDITIONS HERE - Include sections about bookings, cancellations, travel policies, liability, payment terms, etc.]
-              </p>
-              <p className="italic text-sm">
-                By clicking "I'm Ready to Explore", you acknowledge that you have read, understood, and agree to these terms.
-              </p>
-              {/* ===== END OF TERMS AND CONDITIONS ===== */}
-            </div>
-            <div className="text-center">
-              <Button
-                onClick={() => setAcceptedTerms(true)}
-                className="bg-[#D4AF37] text-white hover:bg-[#C49E2C] py-4 px-12 rounded-xl font-bold text-lg shadow-lg transition-all transform hover:scale-105"
+          {/* push down on mobile so the home icon doesn't float in a big empty space */}
+          <section className={`w-full max-w-2xl flex flex-col items-center ${currentStep < questions.length ? 'mt-16 md:mt-0' : ''}`}>
+            <AnimatePresence initial={false}>
+              {currentStep < questions.length && (
+                <motion.div
+                  key={questions[currentStep].id}
+                  variants={cardVariants}
+                  initial="initial"
+                  animate="animate"
+                  exit="exit"
+                  transition={{ duration: 0.35 }}
+                  className="bg-white rounded-2xl shadow-lg p-6 md:p-10 mb-6 w-full text-center"
+                >
+                  <h2 className="text-2xl md:text-3xl font-semibold mb-4" style={{ color: '#000' }}>
+                    {questions[currentStep].text}
+                  </h2>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    {questions[currentStep].options.map((opt) => (
+                      <Button
+                        key={opt}
+                        onClick={() => handleOptionClick(opt)}
+                        className="bg-[#D4AF37] text-white hover:bg-[#C49E2C] py-3 px-4 rounded-xl font-semibold shadow-md transition"
+                      >
+                        {opt}
+                      </Button>
+                    ))}
+                  </div>
+
+                  {/* progress bar placed lower to help fill visual gap on mobile */}
+                  <div className="w-full bg-gray-200 rounded-full h-2 mt-8">
+                    <div
+                      className="h-2 rounded-full transition-all duration-300"
+                      style={{ width: `${(currentStep / questions.length) * 100}%`, background: '#D4AF37' }}
+                    />
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* TERMS / ACCEPT */}
+            {currentStep === questions.length && !acceptedTerms && (
+              <motion.div
+                key="terms"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.35 }}
+                className="bg-white rounded-2xl shadow-lg p-6 md:p-10 mb-6 w-full"
               >
-                🚀 I'm Ready to Explore!
-              </Button>
-            </div>
-          </motion.div>
-        )}
+                <h2 className="text-2xl md:text-3xl font-semibold mb-4 text-center" style={{ color: '#000' }}>
+                  🌍 Adventure Awaits — Let's Go!
+                </h2>
 
-        {/* Form */}
-        {acceptedTerms && (
-          <motion.form
-            key="enquire-form"
-            onSubmit={handleFormSubmit}
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="bg-white rounded-3xl shadow-2xl p-10 w-full space-y-6"
-          >
-            <h2 className="text-3xl font-bold text-center mb-6 text-gray-800">✨ Tell Us About You</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <input
-                name="firstName"
-                type="text"
-                placeholder="First Name"
-                required
-                className="border-2 border-gray-300 rounded-lg p-3 text-gray-800 focus:border-[#D4AF37] focus:outline-none transition"
-                onChange={handleChange}
-              />
-              <input
-                name="lastName"
-                type="text"
-                placeholder="Last Name"
-                required
-                className="border-2 border-gray-300 rounded-lg p-3 text-gray-800 focus:border-[#D4AF37] focus:outline-none transition"
-                onChange={handleChange}
-              />
-            </div>
-            <input
-              name="email"
-              type="email"
-              placeholder="Email Address"
-              required
-              className="w-full border-2 border-gray-300 rounded-lg p-3 text-gray-800 focus:border-[#D4AF37] focus:outline-none transition"
-              onChange={handleChange}
-            />
-            <input
-              name="country"
-              type="text"
-              placeholder="Country of Residence"
-              required
-              className="w-full border-2 border-gray-300 rounded-lg p-3 text-gray-800 focus:border-[#D4AF37] focus:outline-none transition"
-              onChange={handleChange}
-            />
-            
-            {/* Phone with country code */}
-            <div className="flex gap-2">
-              <select
-                value={selectedCode}
-                onChange={(e) => setSelectedCode(e.target.value)}
-                className="border-2 border-gray-300 rounded-lg p-3 text-gray-800 focus:border-[#D4AF37] focus:outline-none transition"
+                <div className="max-h-64 overflow-y-auto mb-4 text-left leading-relaxed" style={{ color: '#000' }}>
+                  <p style={{ color: '#000', fontWeight: 600 }}>Terms & Conditions</p>
+                  <p className="mt-2">Welcome, adventurer! Before we embark, please review our terms and conditions.</p>
+                  <p className="mt-2">[INSERT YOUR FULL TERMS AND CONDITIONS HERE]</p>
+                  <p className="mt-2 italic text-sm">By clicking "I'm Ready to Explore", you agree to these terms.</p>
+                </div>
+
+                <div className="text-center">
+                  <Button
+                    onClick={() => setAcceptedTerms(true)}
+                    className="bg-[#D4AF37] text-white hover:bg-[#C49E2C] py-3 px-6 rounded-xl font-bold shadow-md"
+                  >
+                    🚀 I'm Ready to Explore!
+                  </Button>
+                </div>
+              </motion.div>
+            )}
+
+            {/* FINAL FORM */}
+            {acceptedTerms && (
+              <motion.form
+                key="enquire-form"
+                onSubmit={handleFormSubmit}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.35 }}
+                className="bg-white rounded-2xl shadow-lg p-6 md:p-10 w-full space-y-4"
               >
-                {countryCodes.map((c) => (
-                  <option key={c.code} value={c.code}>
-                    {c.name} ({c.code})
-                  </option>
-                ))}
-              </select>
-              <input
-                name="phone"
-                type="tel"
-                placeholder="Phone Number"
-                required
-                className="flex-1 border-2 border-gray-300 rounded-lg p-3 text-gray-800 focus:border-[#D4AF37] focus:outline-none transition"
-                onChange={handleChange}
+                <h2 className="text-2xl md:text-3xl font-semibold text-center" style={{ color: '#000' }}>
+                  ✨ Tell Us About You
+                </h2>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <input
+                    name="firstName"
+                    type="text"
+                    placeholder="First Name"
+                    required
+                    onChange={handleChange}
+                    className="border rounded-lg p-3"
+                    style={{ color: '#000' }}
+                  />
+                  <input
+                    name="lastName"
+                    type="text"
+                    placeholder="Last Name"
+                    required
+                    onChange={handleChange}
+                    className="border rounded-lg p-3"
+                    style={{ color: '#000' }}
+                  />
+                </div>
+
+                <input
+                  name="email"
+                  type="email"
+                  placeholder="Email Address"
+                  required
+                  onChange={handleChange}
+                  className="w-full border rounded-lg p-3"
+                  style={{ color: '#000' }}
+                />
+
+                <input
+                  name="country"
+                  type="text"
+                  placeholder="Country of Residence"
+                  required
+                  onChange={handleChange}
+                  className="w-full border rounded-lg p-3"
+                  style={{ color: '#000' }}
+                />
+
+                <div className="flex flex-col md:flex-row gap-2">
+                  <select
+                    value={selectedCode}
+                    onChange={(e) => setSelectedCode(e.target.value)}
+                    className="border rounded-lg p-3 w-full md:w-1/3"
+                    style={{ color: '#000' }}
+                  >
+                    {countryCodes.map((c) => (
+                      <option key={c.code} value={c.code}>{c.name} ({c.code})</option>
+                    ))}
+                  </select>
+
+                  <input
+                    name="phone"
+                    type="tel"
+                    placeholder="Phone Number"
+                    required
+                    onChange={handleChange}
+                    className="flex-1 border rounded-lg p-3"
+                    style={{ color: '#000' }}
+                  />
+                </div>
+
+                <Button type="submit" className="bg-[#D4AF37] text-white hover:bg-[#C49E2C] py-3 px-6 rounded-xl font-bold w-full">
+                  🏔️ Start My Adventure!
+                </Button>
+              </motion.form>
+            )}
+          </section>
+        </div>
+
+        {/* Mobile sticky progress (visible on small screens only) */}
+        <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 p-3 bg-white/95">
+          <div className="max-w-xl mx-auto">
+            <div className="w-full bg-gray-200 rounded-full h-2">
+              <div
+                className="h-2 rounded-full transition-all duration-300"
+                style={{ width: `${percent}%`, background: '#D4AF37' }}
               />
             </div>
-
-            <Button
-              type="submit"
-              className="bg-[#D4AF37] text-white hover:bg-[#C49E2C] py-4 px-8 rounded-xl font-bold text-lg w-full shadow-lg transition-all transform hover:scale-105"
-            >
-              🏔️ Start My Adventure!
-            </Button>
-          </motion.form>
-        )}
-      </section>
+            <div className="text-center text-xs mt-2" style={{ color: '#000' }}>
+              {percent}% complete
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
