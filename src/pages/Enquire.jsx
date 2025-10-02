@@ -73,12 +73,7 @@ export default function Enquire() {
     };
 
     emailjs
-      .send(
-        'YOUR_SERVICE_ID',      
-        'YOUR_TEMPLATE_ID',     
-        templateParams,
-        'YOUR_PUBLIC_KEY'       
-      )
+      .send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', templateParams, 'YOUR_PUBLIC_KEY')
       .then(() => {
         alert('Form submitted successfully!');
         navigate('/');
@@ -100,12 +95,15 @@ export default function Enquire() {
       {/* Logo */}
       <div className="flex items-center gap-3 mb-6">
         <img src="/images/logo.png" alt="Baraka Trails" className="w-12 h-12" />
-        <h1 className="text-3xl font-bold text-[#222222]">Baraka Trails</h1>
+        <h1 className="text-3xl font-bold text-gray-800">Baraka Trails</h1>
       </div>
 
       {/* Back arrow */}
       {currentStep > 0 && (
-        <button onClick={handleBack} className="self-start mb-6 flex items-center gap-1 text-[#222222] hover:text-[#D4AF37] transition-colors">
+        <button
+          onClick={handleBack}
+          className="self-start mb-6 flex items-center gap-1 text-gray-700 hover:text-[#D4AF37] transition-colors"
+        >
           <ArrowLeft className="w-6 h-6" /> Back
         </button>
       )}
@@ -123,13 +121,13 @@ export default function Enquire() {
               transition={{ duration: 0.5 }}
               className="bg-white rounded-3xl shadow-2xl p-10 mb-10 w-full text-center"
             >
-              <h2 className="text-3xl font-bold mb-6 text-[#222222]">{questions[currentStep].text}</h2>
+              <h2 className="text-3xl font-bold mb-6 text-gray-800">{questions[currentStep].text}</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {questions[currentStep].options.map((opt) => (
                   <Button
                     key={opt}
                     onClick={() => handleOptionClick(opt)}
-                    className="bg-[#D4AF37] text-[#222222] hover:bg-[#C49E2C] py-3 px-6 rounded-xl font-semibold shadow-md transition"
+                    className="bg-[#D4AF37] text-white hover:bg-[#C49E2C] py-3 px-6 rounded-xl font-semibold shadow-md transition"
                   >
                     {opt}
                   </Button>
@@ -137,7 +135,7 @@ export default function Enquire() {
               </div>
               <div className="w-full bg-gray-300 rounded-full h-3 mt-8">
                 <div
-                  className="bg-[#222222] h-3 rounded-full"
+                  className="bg-[#D4AF37] h-3 rounded-full transition-all duration-300"
                   style={{ width: `${(currentStep / questions.length) * 100}%` }}
                 />
               </div>
@@ -152,18 +150,31 @@ export default function Enquire() {
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="bg-white rounded-3xl shadow-2xl p-10 mb-10 w-full text-center"
+            className="bg-white rounded-3xl shadow-2xl p-10 mb-10 w-full text-gray-800"
           >
-            <h2 className="text-2xl font-bold mb-4 text-[#222222]">Terms & Conditions</h2>
-            <p className="text-[#333333] mb-6 text-left">
-              Please read our guidelines regarding bookings, cancellations, and travel policies. By clicking "I Accept", you agree to these terms.
-            </p>
-            <Button
-              onClick={() => setAcceptedTerms(true)}
-              className="bg-[#222222] text-white hover:bg-[#D4AF37] py-3 px-8 rounded-xl font-semibold"
-            >
-              I Accept
-            </Button>
+            <h2 className="text-3xl font-bold mb-6 text-center text-gray-800">🌍 Adventure Awaits - Let's Go!</h2>
+            <div className="max-h-96 overflow-y-auto mb-6 text-left space-y-4 text-gray-700 leading-relaxed px-4">
+              <p className="font-semibold text-lg text-[#D4AF37]">Terms & Conditions</p>
+              <p>
+                {/* ===== YOUR TERMS AND CONDITIONS GO HERE ===== */}
+                Welcome, adventurer! Before we embark on this incredible journey together, please take a moment to review our terms and conditions.
+              </p>
+              <p>
+                [INSERT YOUR FULL TERMS AND CONDITIONS HERE - Include sections about bookings, cancellations, travel policies, liability, payment terms, etc.]
+              </p>
+              <p className="italic text-sm">
+                By clicking "I'm Ready to Explore", you acknowledge that you have read, understood, and agree to these terms.
+              </p>
+              {/* ===== END OF TERMS AND CONDITIONS ===== */}
+            </div>
+            <div className="text-center">
+              <Button
+                onClick={() => setAcceptedTerms(true)}
+                className="bg-[#D4AF37] text-white hover:bg-[#C49E2C] py-4 px-12 rounded-xl font-bold text-lg shadow-lg transition-all transform hover:scale-105"
+              >
+                🚀 I'm Ready to Explore!
+              </Button>
+            </div>
           </motion.div>
         )}
 
@@ -176,17 +187,49 @@ export default function Enquire() {
             animate={{ opacity: 1, y: 0 }}
             className="bg-white rounded-3xl shadow-2xl p-10 w-full space-y-6"
           >
-            <h2 className="text-3xl font-bold text-center mb-6 text-[#222222]">Your Details</h2>
+            <h2 className="text-3xl font-bold text-center mb-6 text-gray-800">✨ Tell Us About You</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <input name="firstName" type="text" placeholder="First Name" required className="border border-gray-300 rounded-lg p-3" onChange={handleChange} />
-              <input name="lastName" type="text" placeholder="Last Name" required className="border border-gray-300 rounded-lg p-3" onChange={handleChange} />
+              <input
+                name="firstName"
+                type="text"
+                placeholder="First Name"
+                required
+                className="border-2 border-gray-300 rounded-lg p-3 text-gray-800 focus:border-[#D4AF37] focus:outline-none transition"
+                onChange={handleChange}
+              />
+              <input
+                name="lastName"
+                type="text"
+                placeholder="Last Name"
+                required
+                className="border-2 border-gray-300 rounded-lg p-3 text-gray-800 focus:border-[#D4AF37] focus:outline-none transition"
+                onChange={handleChange}
+              />
             </div>
-            <input name="email" type="email" placeholder="Email Address" required className="w-full border border-gray-300 rounded-lg p-3" onChange={handleChange} />
-            <input name="country" type="text" placeholder="Country of Residence" required className="w-full border border-gray-300 rounded-lg p-3" onChange={handleChange} />
+            <input
+              name="email"
+              type="email"
+              placeholder="Email Address"
+              required
+              className="w-full border-2 border-gray-300 rounded-lg p-3 text-gray-800 focus:border-[#D4AF37] focus:outline-none transition"
+              onChange={handleChange}
+            />
+            <input
+              name="country"
+              type="text"
+              placeholder="Country of Residence"
+              required
+              className="w-full border-2 border-gray-300 rounded-lg p-3 text-gray-800 focus:border-[#D4AF37] focus:outline-none transition"
+              onChange={handleChange}
+            />
             
             {/* Phone with country code */}
             <div className="flex gap-2">
-              <select value={selectedCode} onChange={(e) => setSelectedCode(e.target.value)} className="border border-gray-300 rounded-lg p-3 bg-white">
+              <select
+                value={selectedCode}
+                onChange={(e) => setSelectedCode(e.target.value)}
+                className="border-2 border-gray-300 rounded-lg p-3 text-gray-800 focus:border-[#D4AF37] focus:outline-none transition"
+              >
                 {countryCodes.map((c) => (
                   <option key={c.code} value={c.code}>
                     {c.name} ({c.code})
@@ -198,13 +241,16 @@ export default function Enquire() {
                 type="tel"
                 placeholder="Phone Number"
                 required
-                className="flex-1 border border-gray-300 rounded-lg p-3"
+                className="flex-1 border-2 border-gray-300 rounded-lg p-3 text-gray-800 focus:border-[#D4AF37] focus:outline-none transition"
                 onChange={handleChange}
               />
             </div>
 
-            <Button type="submit" className="bg-[#D4AF37] text-[#222222] hover:bg-[#C49E2C] py-3 px-8 rounded-xl font-semibold w-full">
-              Submit
+            <Button
+              type="submit"
+              className="bg-[#D4AF37] text-white hover:bg-[#C49E2C] py-4 px-8 rounded-xl font-bold text-lg w-full shadow-lg transition-all transform hover:scale-105"
+            >
+              🏔️ Start My Adventure!
             </Button>
           </motion.form>
         )}
