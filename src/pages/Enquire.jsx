@@ -212,7 +212,57 @@ export default function Enquire() {
                 <div className="max-h-64 overflow-y-auto mb-4 text-left leading-relaxed" style={{ color: '#000' }}>
                   <p style={{ color: '#000', fontWeight: 600 }}>Terms & Conditions</p>
                   <p className="mt-2">Welcome, adventurer! Before we embark, please review our terms and conditions.</p>
-                  <p className="mt-2">[INSERT YOUR FULL TERMS AND CONDITIONS HERE]</p>
+                  <p className="mt-2">[Terms and Conditions – Baraka Trails
+ Read Baraka Trails’ terms and conditions for Kilimanjaro climbs and Tanzania safaris. Learn about bookings, payments, cancellations, liability, health requirements, and travel insurance.
+Introduction
+Welcome to Baraka Trails. These Terms and Conditions outline the rules and responsibilities when booking a Kilimanjaro climb, Tanzania safari, chimpanzee trekking tour, or any other travel package with us. By confirming a booking, you agree to abide by these terms.
+1. Booking and Confirmation
+	A booking is confirmed once Baraka Trails receives a deposit as specified in your quotation.
+	The balance payment must be made before the start of your trip (usually 30 days prior to departure unless stated otherwise).
+	Failure to pay the balance on time may result in cancellation of your booking.
+2. Payments
+	Payments can be made via bank transfer, credit card, or other approved methods.
+	All transaction fees, including bank charges, are the responsibility of the client.
+	Prices are quoted in USD unless otherwise stated.
+3. Cancellations and Refunds
+	60+ days before departure: Deposit refundable minus administrative fees.
+	30–59 days before departure: 50% of the tour price is refundable.
+	Less than 30 days before departure: No refund.
+	Refunds may take up to 7 days to process.
+4. Travel Insurance
+	All clients must have travel insurance covering:
+o	Medical emergencies
+o	Evacuation (including helicopter rescue from Kilimanjaro)
+o	Trip cancellations and delays
+	Proof of insurance may be requested before departure.
+5. Health and Fitness Requirements
+	Clients are responsible for ensuring they are in good health before joining a Kilimanjaro trek or safari.
+	A medical check-up is recommended prior to climbing Mount Kilimanjaro.
+	Baraka Trails reserves the right to refuse participation if a client is deemed unfit to travel.
+
+6. Risks and Liability
+	While Baraka Trails takes every precaution to ensure your safety, participation in Kilimanjaro climbs, wildlife safaris, and trekking adventures carries inherent risks.
+	Baraka Trails is not liable for:
+o	Illness, injury, or death
+o	Loss or damage of personal property
+o	Delays or cancellations caused by weather, strikes, political unrest, or natural disasters
+	Clients are required to follow guide instructions at all times.
+7. Changes to Itinerary
+	Baraka Trails reserves the right to alter itineraries due to weather, safety, park regulations, or unforeseen circumstances.
+	Any additional costs incurred will be the client’s responsibility.
+8. Porter and Crew Welfare
+	Baraka Trails follows Tanzania Porters Association (TPA) and Kilimanjaro Guides Association (KGA) standards to ensure fair treatment of porters and crew.
+	This includes fair wages, proper gear, reasonable loads, and adequate food.
+9. Client Responsibility
+	Clients must ensure valid passports, visas, vaccinations, and other entry requirements.
+	Clients must respect local customs, wildlife regulations, and environmental guidelines (Leave No Trace principles).
+10. Governing Law
+	These Terms and Conditions are governed by the laws of the United Republic of Tanzania.
+	Any disputes shall be resolved under Tanzanian jurisdiction.
+Contact Us
+For questions regarding these Terms and Conditions, please contact:
+
+]</p>
                   <p className="mt-2 italic text-sm">By clicking "I'm Ready to Explore", you agree to these terms.</p>
                 </div>
 
