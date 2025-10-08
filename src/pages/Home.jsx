@@ -9,6 +9,7 @@ import WhyChoose from '../components/WhyChoose';
 import IntroParagraph from '../components/IntroParagraph';
 import WildebeestCarousel from '../components/WildebeestCarousel';
 import SignatureTours from '../components/SignatureTours';
+import TripAdvisorWidget from '../components/TripAdvisor';
 
 export default function Home() {
   return (
@@ -21,6 +22,7 @@ export default function Home() {
       <ImageCarousel />
       <ConnectSection />
       <WhyChoose />
+      <TripAdvisorWidget />
       <Footer />
     </div>
   );
