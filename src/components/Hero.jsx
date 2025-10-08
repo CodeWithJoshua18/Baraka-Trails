@@ -13,7 +13,6 @@ const Hero = () => {
   const intervalRef = useRef(null);
   const [isMobile, setIsMobile] = useState(false);
 
-  // Detect mobile screen in effect to support SSR
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
     checkMobile();
@@ -21,7 +20,7 @@ const Hero = () => {
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  // Lazy preload desktop images only
+  // Preload desktop images only
   useEffect(() => {
     if (!isMobile) {
       slides.forEach(slide => {
@@ -31,13 +30,16 @@ const Hero = () => {
     }
   }, [isMobile]);
 
-  // Autoplay on desktop/tablet
+  // Autoplay only on non-mobile
   useEffect(() => {
     if (!isMobile) {
       intervalRef.current = setInterval(() => {
-        setCarouselIndex((prev) => (prev + 1) % slides.length);
+        setCarouselIndex(prev => (prev + 1) % slides.length);
       }, 5000);
       return () => clearInterval(intervalRef.current);
+    } else {
+      // Clear interval if mobile to prevent autoplay
+      clearInterval(intervalRef.current);
     }
   }, [isMobile]);
 
@@ -48,20 +50,19 @@ const Hero = () => {
 
   return (
     <section className="relative w-full h-screen overflow-hidden">
-      {/* Draggable entire slide (image + overlay) on mobile */}
       <AnimatePresence mode="wait">
         <motion.div
           key={carouselIndex}
           className="absolute inset-0 flex flex-col items-center justify-center text-center text-white cursor-grab"
-          drag={isMobile ? "x" : false}
+          drag="x"
           dragConstraints={{ left: 0, right: 0 }}
           dragElastic={0.2}
           onDragEnd={(event, info) => {
             if (info.offset.x < -50) handleSwipe("left");
             else if (info.offset.x > 50) handleSwipe("right");
           }}
+          dragMomentum={false} // Optional: disable momentum for better control on mobile
         >
-          {/* Background Image - use img with responsive and lazy loading on mobile */}
           <motion.img
             src={isMobile ? slides[carouselIndex].imgMobile || slides[carouselIndex].img : slides[carouselIndex].img}
             alt={slides[carouselIndex].title}
@@ -74,12 +75,10 @@ const Hero = () => {
             draggable={false}
           />
 
-          {/* Overlay Background */}
           <div className="absolute inset-0 bg-black/40 pointer-events-none" />
 
-          {/* Overlay Content */}
           <motion.div
-            key={`content-${carouselIndex}`} // separate key for smooth content animation
+            key={`content-${carouselIndex}`}
             initial={{ opacity: 0, x: !isMobile ? 50 : 0 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: !isMobile ? -50 : 0 }}
@@ -103,7 +102,6 @@ const Hero = () => {
         </motion.div>
       </AnimatePresence>
 
-      {/* Chevrons */}
       <button
         className="absolute left-4 top-1/2 -translate-y-1/2 z-20 text-white p-2 bg-black/30 rounded-full hover:bg-black/50 transition"
         onClick={() => handleSwipe("right")}
