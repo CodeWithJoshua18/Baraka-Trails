@@ -1,5 +1,4 @@
-
-import { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, memo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const slides = [
@@ -59,6 +58,7 @@ const Hero = () => {
       className="relative w-full h-screen overflow-hidden bg-cover bg-center"
       style={{
         backgroundImage: `url('/images/3.jpg')`, // replace with your cinematic image
+        willChange: "transform", // isolates layout to prevent Navbar reflow
       }}
     >
       {/* Overlay for readability */}
@@ -115,4 +115,5 @@ const Hero = () => {
   );
 };
 
-export default Hero;
+// ✅ Memoized to prevent unnecessary re-renders affecting Navbar
+export default memo(Hero);
