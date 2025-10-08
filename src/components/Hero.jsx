@@ -175,6 +175,7 @@ const Hero = () => {
               transition={{ duration: 1.5, repeat: Infinity }}
               className="text-white/80 text-sm font-medium"
             >
+              
               ← Swipe →
             </motion.div>
           </motion.div>
