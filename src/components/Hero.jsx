@@ -21,7 +21,7 @@ const Hero = () => {
     });
   }, []);
 
-  // Automatic slide for large screens only
+  // Automatic slide for large screens
   useEffect(() => {
     if (!isMobile) {
       intervalRef.current = setInterval(() => {
@@ -39,27 +39,33 @@ const Hero = () => {
 
   return (
     <section className="relative w-full h-screen overflow-hidden">
-      {/* Background */}
       <motion.div
-        key={carouselIndex}
-        className="absolute inset-0 w-full h-full bg-center bg-cover"
-        style={{ backgroundImage: `url(${slides[carouselIndex].img})` }}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.8 }}
-        drag={isMobile ? "x" : false}          // Enable drag on mobile only
+        className="absolute inset-0 w-full h-full"
+        drag={isMobile ? "x" : false}
         dragConstraints={{ left: 0, right: 0 }}
         dragElastic={0.2}
         onDragEnd={(event, info) => {
           if (info.offset.x < -50) handleSwipe("left");
           else if (info.offset.x > 50) handleSwipe("right");
         }}
-      />
+      >
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={carouselIndex}
+            className="absolute inset-0 bg-center bg-cover"
+            style={{ backgroundImage: `url(${slides[carouselIndex].img})` }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.8 }}
+          />
+        </AnimatePresence>
+      </motion.div>
 
-      <div className="absolute inset-0 bg-black/40" />
+      <div className="absolute inset-0 bg-black/40 pointer-events-none" />
 
       {/* Overlay Content */}
-      <div className="relative z-10 flex flex-col items-center justify-center h-full px-6 md:px-20 text-center text-white">
+      <div className="relative z-10 flex flex-col items-center justify-center h-full px-6 md:px-20 text-center text-white pointer-events-auto">
         <AnimatePresence mode="wait">
           <motion.div
             key={carouselIndex}
@@ -86,13 +92,13 @@ const Hero = () => {
 
         {/* Chevrons */}
         <button
-          className="absolute left-4 top-1/2 -translate-y-1/2 text-white p-2 bg-black/30 rounded-full hover:bg-black/50 transition"
+          className="absolute left-4 top-1/2 -translate-y-1/2 z-20 text-white p-2 bg-black/30 rounded-full hover:bg-black/50 transition"
           onClick={() => handleSwipe("right")}
         >
           <ChevronLeft className="w-6 h-6" />
         </button>
         <button
-          className="absolute right-4 top-1/2 -translate-y-1/2 text-white p-2 bg-black/30 rounded-full hover:bg-black/50 transition"
+          className="absolute right-4 top-1/2 -translate-y-1/2 z-20 text-white p-2 bg-black/30 rounded-full hover:bg-black/50 transition"
           onClick={() => handleSwipe("left")}
         >
           <ChevronRight className="w-6 h-6" />
