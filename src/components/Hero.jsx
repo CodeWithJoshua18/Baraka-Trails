@@ -10,16 +10,8 @@ const slides = [
 
 const Hero = () => {
   const [carouselIndex, setCarouselIndex] = useState(0);
-  const [isMobile, setIsMobile] = useState(false);
   const intervalRef = useRef(null);
-
-  // Detect mobile screens
-  useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768);
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
+  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
 
   // Preload images
   useEffect(() => {
@@ -29,26 +21,41 @@ const Hero = () => {
     });
   }, []);
 
-  // Carousel interval only on desktop
+  // Automatic slide for large screens only
   useEffect(() => {
     if (!isMobile) {
       intervalRef.current = setInterval(() => {
         setCarouselIndex(prev => (prev + 1) % slides.length);
       }, 5000);
+      return () => clearInterval(intervalRef.current);
     }
-    return () => clearInterval(intervalRef.current);
   }, [isMobile]);
 
-  const nextSlide = () => setCarouselIndex((prev) => (prev + 1) % slides.length);
-  const prevSlide = () => setCarouselIndex((prev) => (prev - 1 + slides.length) % slides.length);
+  // Swipe handler
+  const handleSwipe = (direction) => {
+    if (direction === "left") setCarouselIndex(prev => (prev + 1) % slides.length);
+    if (direction === "right") setCarouselIndex(prev => (prev - 1 + slides.length) % slides.length);
+  };
 
   return (
     <section className="relative w-full h-screen overflow-hidden">
-      {/* Background Image */}
-      <div
-        className="absolute inset-0 w-full h-full bg-center bg-cover transition-all duration-700"
+      {/* Background */}
+      <motion.div
+        key={carouselIndex}
+        className="absolute inset-0 w-full h-full bg-center bg-cover"
         style={{ backgroundImage: `url(${slides[carouselIndex].img})` }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.8 }}
+        drag={isMobile ? "x" : false}          // Enable drag on mobile only
+        dragConstraints={{ left: 0, right: 0 }}
+        dragElastic={0.2}
+        onDragEnd={(event, info) => {
+          if (info.offset.x < -50) handleSwipe("left");
+          else if (info.offset.x > 50) handleSwipe("right");
+        }}
       />
+
       <div className="absolute inset-0 bg-black/40" />
 
       {/* Overlay Content */}
@@ -56,18 +63,11 @@ const Hero = () => {
         <AnimatePresence mode="wait">
           <motion.div
             key={carouselIndex}
-            initial={{ opacity: 0, x: isMobile ? 0 : 50 }}
+            initial={{ opacity: 0, x: !isMobile ? 50 : 0 }}
             animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: isMobile ? 0 : -50 }}
+            exit={{ opacity: 0, x: !isMobile ? -50 : 0 }}
             transition={{ duration: 0.6, ease: "easeInOut" }}
             className="space-y-4 max-w-2xl mx-auto"
-            drag={isMobile ? "x" : false}
-            dragConstraints={{ left: 0, right: 0 }}
-            dragElastic={0.25}
-            onDragEnd={(e, info) => {
-              if (info.offset.x < -50) nextSlide();
-              else if (info.offset.x > 50) prevSlide();
-            }}
           >
             <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold text-[#D4AF37] leading-tight">
               {slides[carouselIndex].title}
@@ -84,17 +84,19 @@ const Hero = () => {
           </motion.div>
         </AnimatePresence>
 
-        {/* Chevrons for mobile navigation */}
-        {isMobile && (
-          <div className="absolute bottom-10 flex gap-6">
-            <button onClick={prevSlide} className="bg-black/40 p-2 rounded-full hover:bg-black/60 transition-colors">
-              <ChevronLeft className="w-6 h-6 text-white" />
-            </button>
-            <button onClick={nextSlide} className="bg-black/40 p-2 rounded-full hover:bg-black/60 transition-colors">
-              <ChevronRight className="w-6 h-6 text-white" />
-            </button>
-          </div>
-        )}
+        {/* Chevrons */}
+        <button
+          className="absolute left-4 top-1/2 -translate-y-1/2 text-white p-2 bg-black/30 rounded-full hover:bg-black/50 transition"
+          onClick={() => handleSwipe("right")}
+        >
+          <ChevronLeft className="w-6 h-6" />
+        </button>
+        <button
+          className="absolute right-4 top-1/2 -translate-y-1/2 text-white p-2 bg-black/30 rounded-full hover:bg-black/50 transition"
+          onClick={() => handleSwipe("left")}
+        >
+          <ChevronRight className="w-6 h-6" />
+        </button>
       </div>
     </section>
   );
