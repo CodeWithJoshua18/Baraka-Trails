@@ -27,7 +27,7 @@ const Navbar = () => {
   const textColor = isScrolled ? 'text-black' : 'text-white';
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50">
+    <nav className="fixed top-0 left-0 right-0 z-50 pointer-events-auto">
       <div
         className={`transition-all duration-300 ${
           isScrolled ? 'bg-white/90 shadow-lg py-4' : 'bg-transparent py-6'
@@ -35,10 +35,7 @@ const Navbar = () => {
       >
         <div className="container mx-auto flex items-center justify-between px-4">
           {/* Logo */}
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            className={`flex items-center gap-2 cursor-pointer ${textColor}`}
-          >
+          <motion.div whileHover={{ scale: 1.05 }} className={`flex items-center gap-2 cursor-pointer ${textColor}`}>
             <Mountain className="w-8 h-8 text-[#D4AF37]" />
             <span className="text-xl font-bold">Baraka Trails</span>
           </motion.div>
@@ -56,9 +53,7 @@ const Navbar = () => {
               </Link>
             ))}
             <Link to="/enquire">
-              <Button className="bg-[#D4AF37] text-[#3E2F1C] hover:bg-[#C49E2C]">
-                Enquire
-              </Button>
+              <Button className="bg-[#D4AF37] text-[#3E2F1C] hover:bg-[#C49E2C]">Enquire</Button>
             </Link>
           </div>
 
@@ -72,29 +67,30 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile Menu Full-Screen Blur */}
+      {/* Mobile Menu Full-Screen */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <>
-            {/* Full-Screen Blur Overlay */}
+            {/* Overlay */}
             <motion.div
+              key="overlay"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.3 }}
-              className="fixed inset-0 z-40 backdrop-blur-md bg-black/20"
+              transition={{ duration: 0.25 }}
+              className="fixed inset-0 z-40 backdrop-blur-md bg-black/20 pointer-events-auto"
               onClick={() => setIsMobileMenuOpen(false)}
             />
 
-            {/* Slide-In Menu Fullscreen */}
+            {/* Slide-In Menu */}
             <motion.div
+              key="menu"
               initial={{ x: '100%' }}
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
-              transition={{ type: 'tween', duration: 0.4 }}
-              className="fixed top-0 left-0 right-0 bottom-0 z-50 flex flex-col items-center justify-center gap-8 bg-transparent backdrop-blur-md"
+              transition={{ type: 'tween', duration: 0.35 }}
+              className="fixed top-0 left-0 right-0 bottom-0 z-50 flex flex-col items-center justify-center gap-8 bg-transparent backdrop-blur-md pointer-events-auto"
             >
-              {/* Close Button */}
               <button
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="absolute top-6 right-6 text-white z-50"
