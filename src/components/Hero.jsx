@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import Button from "./Button";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const slides = [
   { title: "Climb Kilimanjaro", desc: "Reach the roof of Africa with guided tours.", href: "#climbing", img: "/images/8.jpg" },
@@ -10,7 +10,16 @@ const slides = [
 
 const Hero = () => {
   const [carouselIndex, setCarouselIndex] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
   const intervalRef = useRef(null);
+
+  // Detect mobile screens
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   // Preload images
   useEffect(() => {
@@ -20,13 +29,18 @@ const Hero = () => {
     });
   }, []);
 
-  // Safe interval for carousel
+  // Carousel interval only on desktop
   useEffect(() => {
-    intervalRef.current = setInterval(() => {
-      setCarouselIndex(prev => (prev + 1) % slides.length);
-    }, 5000);
+    if (!isMobile) {
+      intervalRef.current = setInterval(() => {
+        setCarouselIndex(prev => (prev + 1) % slides.length);
+      }, 5000);
+    }
     return () => clearInterval(intervalRef.current);
-  }, []);
+  }, [isMobile]);
+
+  const nextSlide = () => setCarouselIndex((prev) => (prev + 1) % slides.length);
+  const prevSlide = () => setCarouselIndex((prev) => (prev - 1 + slides.length) % slides.length);
 
   return (
     <section className="relative w-full h-screen overflow-hidden">
@@ -40,32 +54,47 @@ const Hero = () => {
       {/* Overlay Content */}
       <div className="relative z-10 flex flex-col items-center justify-center h-full px-6 md:px-20 text-center text-white">
         <AnimatePresence mode="wait">
-          {slides.map((slide, idx) =>
-            idx === carouselIndex ? (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0, x: window.innerWidth >= 768 ? 50 : 0 }} // Only slide for md+
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: window.innerWidth >= 768 ? -50 : 0 }}
-                transition={{ duration: 0.6, ease: "easeInOut" }}
-                className="space-y-4"
-              >
-                <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold text-[#D4AF37] leading-tight">
-                  {slide.title}
-                </h1>
-                <p className="text-md sm:text-lg md:text-xl text-white/90 max-w-2xl mx-auto">
-                  {slide.desc}
-                </p>
-                <a
-                  href={slide.href}
-                  className="inline-block px-6 py-3 mt-4 bg-[#D4AF37] text-[#3E2F1C] font-semibold rounded-md hover:bg-[#C49E2C] transition-colors"
-                >
-                  Learn More
-                </a>
-              </motion.div>
-            ) : null
-          )}
+          <motion.div
+            key={carouselIndex}
+            initial={{ opacity: 0, x: isMobile ? 0 : 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: isMobile ? 0 : -50 }}
+            transition={{ duration: 0.6, ease: "easeInOut" }}
+            className="space-y-4 max-w-2xl mx-auto"
+            drag={isMobile ? "x" : false}
+            dragConstraints={{ left: 0, right: 0 }}
+            dragElastic={0.25}
+            onDragEnd={(e, info) => {
+              if (info.offset.x < -50) nextSlide();
+              else if (info.offset.x > 50) prevSlide();
+            }}
+          >
+            <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold text-[#D4AF37] leading-tight">
+              {slides[carouselIndex].title}
+            </h1>
+            <p className="text-md sm:text-lg md:text-xl text-white/90">
+              {slides[carouselIndex].desc}
+            </p>
+            <a
+              href={slides[carouselIndex].href}
+              className="inline-block px-6 py-3 mt-4 bg-[#D4AF37] text-[#3E2F1C] font-semibold rounded-md hover:bg-[#C49E2C] transition-colors"
+            >
+              Learn More
+            </a>
+          </motion.div>
         </AnimatePresence>
+
+        {/* Chevrons for mobile navigation */}
+        {isMobile && (
+          <div className="absolute bottom-10 flex gap-6">
+            <button onClick={prevSlide} className="bg-black/40 p-2 rounded-full hover:bg-black/60 transition-colors">
+              <ChevronLeft className="w-6 h-6 text-white" />
+            </button>
+            <button onClick={nextSlide} className="bg-black/40 p-2 rounded-full hover:bg-black/60 transition-colors">
+              <ChevronRight className="w-6 h-6 text-white" />
+            </button>
+          </div>
+        )}
       </div>
     </section>
   );
