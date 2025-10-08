@@ -14,6 +14,11 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Close mobile menu on route change
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+  }, [location.pathname]);
+
   const navLinks = [
     { name: 'Climbing Kilimanjaro', path: '/climbing' },
     { name: 'Safari', path: '/safari' },
@@ -59,44 +64,47 @@ const Navbar = () => {
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             className={`md:hidden z-50 ${textColor}`}
+            aria-label="Toggle menu"
+            aria-expanded={isMobileMenuOpen}
           >
             {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
         </div>
       </div>
 
-      {/* Mobile Menu Full-Screen */}
-      {isMobileMenuOpen && (
-        <div className="fixed inset-0 z-50 flex flex-col items-center justify-center gap-8 bg-black/80 pointer-events-auto">
-          {/* Close Button */}
-          <button
-            onClick={() => setIsMobileMenuOpen(false)}
-            className="absolute top-6 right-6 text-white z-50"
+      {/* Mobile Menu Full-Screen - always rendered but toggled by CSS */}
+      <div
+        className={`fixed inset-0 z-50 flex flex-col items-center justify-center gap-8 bg-black/80 pointer-events-auto transition-opacity duration-300 ${
+          isMobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
+        }`}
+      >
+        {/* Close Button */}
+        <button
+          onClick={() => setIsMobileMenuOpen(false)}
+          className="absolute top-6 right-6 text-white z-50"
+          aria-label="Close menu"
+        >
+          <X className="w-8 h-8" />
+        </button>
+
+        {navLinks.map((link) => (
+          <Link
+            key={link.name}
+            to={link.path}
+            className="text-white text-2xl font-bold hover:text-[#D4AF37] transition-colors"
           >
-            <X className="w-8 h-8" />
-          </button>
-
-          {navLinks.map((link) => (
-            <Link
-              key={link.name}
-              to={link.path}
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="text-white text-2xl font-bold hover:text-[#D4AF37] transition-colors"
-            >
-              {link.name}
-            </Link>
-          ))}
-
-          <Link to="/enquire">
-            <Button
-              className="bg-[#D4AF37] text-[#3E2F1C] hover:bg-[#C49E2C] px-8 py-3 font-bold"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              Enquire
-            </Button>
+            {link.name}
           </Link>
-        </div>
-      )}
+        ))}
+
+        <Link to="/enquire">
+          <Button
+            className="bg-[#D4AF37] text-[#3E2F1C] hover:bg-[#C49E2C] px-8 py-3 font-bold"
+          >
+            Enquire
+          </Button>
+        </Link>
+      </div>
     </nav>
   );
 };
