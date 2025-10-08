@@ -3,35 +3,44 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const slides = [
-  { title: "Climb Kilimanjaro", desc: "Reach the roof of Africa with guided tours.", href: "#climbing", img: "/images/8.jpg" },
-  { title: "Safari Adventures", desc: "Experience the wild like never before.", href: "#safari", img: "/images/7.jpg" },
-  { title: "Discover Destinations", desc: "Breathtaking locations curated for you.", href: "#destinations", img: "/images/9.jpg" },
+  { title: "Climb Kilimanjaro", desc: "Reach the roof of Africa with guided tours.", href: "#climbing", img: "/images/8.jpg", imgMobile: "/images/8-small.jpg" },
+  { title: "Safari Adventures", desc: "Experience the wild like never before.", href: "#safari", img: "/images/7.jpg", imgMobile: "/images/7-small.jpg" },
+  { title: "Discover Destinations", desc: "Breathtaking locations curated for you.", href: "#destinations", img: "/images/9.jpg", imgMobile: "/images/9-small.jpg" },
 ];
 
 const Hero = () => {
   const [carouselIndex, setCarouselIndex] = useState(0);
   const intervalRef = useRef(null);
-  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+  const [isMobile, setIsMobile] = useState(false);
 
-  // Preload images
+  // Detect mobile screen in effect to support SSR
   useEffect(() => {
-    slides.forEach(slide => {
-      const img = new Image();
-      img.src = slide.img;
-    });
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  // Automatic slide for large screens
+  // Lazy preload desktop images only
+  useEffect(() => {
+    if (!isMobile) {
+      slides.forEach(slide => {
+        const img = new Image();
+        img.src = slide.img;
+      });
+    }
+  }, [isMobile]);
+
+  // Autoplay on desktop/tablet
   useEffect(() => {
     if (!isMobile) {
       intervalRef.current = setInterval(() => {
-        setCarouselIndex(prev => (prev + 1) % slides.length);
+        setCarouselIndex((prev) => (prev + 1) % slides.length);
       }, 5000);
       return () => clearInterval(intervalRef.current);
     }
   }, [isMobile]);
 
-  // Swipe handler
   const handleSwipe = (direction) => {
     if (direction === "left") setCarouselIndex(prev => (prev + 1) % slides.length);
     if (direction === "right") setCarouselIndex(prev => (prev - 1 + slides.length) % slides.length);
@@ -39,41 +48,44 @@ const Hero = () => {
 
   return (
     <section className="relative w-full h-screen overflow-hidden">
-      <motion.div
-        className="absolute inset-0 w-full h-full"
-        drag={isMobile ? "x" : false}
-        dragConstraints={{ left: 0, right: 0 }}
-        dragElastic={0.2}
-        onDragEnd={(event, info) => {
-          if (info.offset.x < -50) handleSwipe("left");
-          else if (info.offset.x > 50) handleSwipe("right");
-        }}
-      >
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={carouselIndex}
-            className="absolute inset-0 bg-center bg-cover"
-            style={{ backgroundImage: `url(${slides[carouselIndex].img})` }}
+      {/* Draggable entire slide (image + overlay) on mobile */}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={carouselIndex}
+          className="absolute inset-0 flex flex-col items-center justify-center text-center text-white cursor-grab"
+          drag={isMobile ? "x" : false}
+          dragConstraints={{ left: 0, right: 0 }}
+          dragElastic={0.2}
+          onDragEnd={(event, info) => {
+            if (info.offset.x < -50) handleSwipe("left");
+            else if (info.offset.x > 50) handleSwipe("right");
+          }}
+        >
+          {/* Background Image - use img with responsive and lazy loading on mobile */}
+          <motion.img
+            src={isMobile ? slides[carouselIndex].imgMobile || slides[carouselIndex].img : slides[carouselIndex].img}
+            alt={slides[carouselIndex].title}
+            className="absolute inset-0 w-full h-full object-cover"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.8 }}
+            loading={isMobile ? "lazy" : "eager"}
+            draggable={false}
           />
-        </AnimatePresence>
-      </motion.div>
 
-      <div className="absolute inset-0 bg-black/40 pointer-events-none" />
+          {/* Overlay Background */}
+          <div className="absolute inset-0 bg-black/40 pointer-events-none" />
 
-      {/* Overlay Content */}
-      <div className="relative z-10 flex flex-col items-center justify-center h-full px-6 md:px-20 text-center text-white pointer-events-auto">
-        <AnimatePresence mode="wait">
+          {/* Overlay Content */}
           <motion.div
-            key={carouselIndex}
+            key={`content-${carouselIndex}`} // separate key for smooth content animation
             initial={{ opacity: 0, x: !isMobile ? 50 : 0 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: !isMobile ? -50 : 0 }}
             transition={{ duration: 0.6, ease: "easeInOut" }}
-            className="space-y-4 max-w-2xl mx-auto"
+            className="relative z-10 space-y-4 max-w-2xl px-6 md:px-20"
+            pointerEvents="auto"
           >
             <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold text-[#D4AF37] leading-tight">
               {slides[carouselIndex].title}
@@ -88,22 +100,24 @@ const Hero = () => {
               Learn More
             </a>
           </motion.div>
-        </AnimatePresence>
+        </motion.div>
+      </AnimatePresence>
 
-        {/* Chevrons */}
-        <button
-          className="absolute left-4 top-1/2 -translate-y-1/2 z-20 text-white p-2 bg-black/30 rounded-full hover:bg-black/50 transition"
-          onClick={() => handleSwipe("right")}
-        >
-          <ChevronLeft className="w-6 h-6" />
-        </button>
-        <button
-          className="absolute right-4 top-1/2 -translate-y-1/2 z-20 text-white p-2 bg-black/30 rounded-full hover:bg-black/50 transition"
-          onClick={() => handleSwipe("left")}
-        >
-          <ChevronRight className="w-6 h-6" />
-        </button>
-      </div>
+      {/* Chevrons */}
+      <button
+        className="absolute left-4 top-1/2 -translate-y-1/2 z-20 text-white p-2 bg-black/30 rounded-full hover:bg-black/50 transition"
+        onClick={() => handleSwipe("right")}
+        aria-label="Previous slide"
+      >
+        <ChevronLeft className="w-6 h-6" />
+      </button>
+      <button
+        className="absolute right-4 top-1/2 -translate-y-1/2 z-20 text-white p-2 bg-black/30 rounded-full hover:bg-black/50 transition"
+        onClick={() => handleSwipe("left")}
+        aria-label="Next slide"
+      >
+        <ChevronRight className="w-6 h-6" />
+      </button>
     </section>
   );
 };
