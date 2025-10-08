@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import Button from "./Button";
 
 const slides = [
   {
@@ -26,6 +25,15 @@ const slides = [
 const Hero = () => {
   const [carouselIndex, setCarouselIndex] = useState(0);
   const intervalRef = useRef(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Detect screen width
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   // Preload images
   useEffect(() => {
@@ -35,7 +43,7 @@ const Hero = () => {
     });
   }, []);
 
-  // Safe interval for carousel (prevents re-renders affecting other components)
+  // Carousel interval
   useEffect(() => {
     intervalRef.current = setInterval(() => {
       setCarouselIndex((prev) => (prev + 1) % slides.length);
@@ -44,24 +52,25 @@ const Hero = () => {
   }, []);
 
   return (
-    <section className="relative w-full h-screen overflow-hidden">
+    <section className="relative w-full min-h-[100vh] overflow-hidden">
       {/* Background Image */}
       <div
-        className="absolute inset-0 w-full h-full bg-center bg-cover transition-all duration-700"
+        className="absolute inset-0 w-full h-full bg-center bg-cover transition-all duration-1000 ease-in-out"
         style={{ backgroundImage: `url(${slides[carouselIndex].img})` }}
       />
-      <div className="absolute inset-0 bg-black/40"></div>
+      {/* Overlay */}
+      <div className="absolute inset-0 bg-black/40" />
 
-      {/* Overlay Content */}
-      <div className="relative z-10 flex flex-col items-center justify-center h-full px-6 md:px-20 text-center text-white">
+      {/* Centered Content */}
+      <div className="relative z-10 flex flex-col items-center justify-center min-h-[100vh] px-6 md:px-20 text-center text-white">
         <AnimatePresence mode="wait">
           <motion.div
             key={carouselIndex}
-            initial={{ opacity: 0, x: 50 }}
+            initial={{ opacity: 0, x: isMobile ? 0 : 50 }}
             animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -50 }}
-            transition={{ duration: 0.8 }}
-            className="space-y-4"
+            exit={{ opacity: 0, x: isMobile ? 0 : -50 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="space-y-4 max-w-3xl mx-auto"
           >
             <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold text-[#D4AF37] leading-tight">
               {slides[carouselIndex].title}
@@ -83,4 +92,3 @@ const Hero = () => {
 };
 
 export default Hero;
-
