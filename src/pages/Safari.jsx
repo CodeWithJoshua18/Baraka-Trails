@@ -66,7 +66,7 @@ However, it's peak season — expect higher accommodation rates and some dryness
     {
       title: "Tarangire, Ngorongoro & More Adventures in Serengeti (5-day safari)",
       desc: "Extended safari exploring Serengeti plains along with Tarangire and Ngorongoro highlights.",
-      images: ["/images/ngorongoro.jpg", "/images/ngorongoro2.jpg", "/images/ngorongoro3.jpg"],
+      images: ["/images/ngororo2.jpeg", "/images/serengeti2.jpg"],
       price: "$2,250",
     },
     {
@@ -78,7 +78,7 @@ However, it's peak season — expect higher accommodation rates and some dryness
     {
       title: "Ndutu – The Heart of the Southern Serengeti (10-day safari)",
       desc: "Deep safari exploration in Southern Serengeti. All-inclusive package with luxury accommodations.",
-      images: ["/images/ndutu.jpg", "/images/ndutu2.jpg", "/images/ndutu3.jpg"],
+      images: ["/images/ndutu1.jpg", "/images/ndutu2.jpeg", "/images/ndutu3.jpg"],
       price: "$4,210",
     },
     {
