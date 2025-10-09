@@ -239,7 +239,7 @@ However, it's peak season — expect higher accommodation rates and some dryness
 
           <div className="space-y-4 w-full">
             {sections.map((section, index) => (
-              <motion.div
+              <div
                 key={index}
                 className="bg-white/20 backdrop-blur-lg border border-white/30 rounded-2xl overflow-hidden shadow-md"
               >
@@ -261,7 +261,7 @@ However, it's peak season — expect higher accommodation rates and some dryness
                       animate={{ height: "auto", opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
                       transition={{ duration: 0.3, ease: "easeInOut" }}
-                      className="overflow-hidden"
+                      style={{ overflow: "hidden" }}
                     >
                       <div className="px-6 pb-6 !text-black text-base md:text-lg leading-relaxed">
                         {section.content}
@@ -269,7 +269,7 @@ However, it's peak season — expect higher accommodation rates and some dryness
                     </motion.div>
                   )}
                 </AnimatePresence>
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>
@@ -366,7 +366,7 @@ However, it's peak season — expect higher accommodation rates and some dryness
         </h2>
         <div className="max-w-3xl mx-auto space-y-4">
           {quickLinks.map((link, index) => (
-            <motion.div
+            <div
               key={index}
               className="bg-white/20 backdrop-blur-lg border border-white/30 rounded-2xl overflow-hidden shadow-md"
             >
@@ -388,7 +388,7 @@ However, it's peak season — expect higher accommodation rates and some dryness
                     animate={{ height: "auto", opacity: 1 }}
                     exit={{ height: 0, opacity: 0 }}
                     transition={{ duration: 0.3, ease: "easeInOut" }}
-                    className="overflow-hidden"
+                    style={{ overflow: "hidden" }}
                   >
                     <div className="px-6 pb-6 !text-black text-base md:text-lg leading-relaxed">
                       {link.desc}
@@ -396,7 +396,7 @@ However, it's peak season — expect higher accommodation rates and some dryness
                   </motion.div>
                 )}
               </AnimatePresence>
-            </motion.div>
+            </div>
           ))}
         </div>
       </section>
