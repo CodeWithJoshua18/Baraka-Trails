@@ -62,16 +62,11 @@ However, it's peak season — expect higher accommodation rates and some dryness
       images: ["/images/tarangire.jpg", "/images/manyara.jpg", "/images/crater.jpg"],
       price: "$1,140",
     },
-    {
-      title: "Tarangire, Manyara and Ngorongoro crater (3-day safari)",
-      desc: "Similar adventure covering the highlights of Tarangire, Manyara, and Ngorongoro Crater with expert guides.",
-      images: ["/images/manyara.jpg", "/images/manyara2.jpg"],
-      price: "$1,140",
-    },
+    
     {
       title: "Tarangire, Ngorongoro & More Adventures in Serengeti (5-day safari)",
       desc: "Extended safari exploring Serengeti plains along with Tarangire and Ngorongoro highlights.",
-      images: ["/images/ngorongoro.jpg", "/images/ngorongoro2.jpg", "/images/ngorongoro3.jpg"],
+      images: ["/images/ngororo2.jpg", "/images/serengeti2.jpg"],
       price: "$2,250",
     },
     {
@@ -83,13 +78,13 @@ However, it's peak season — expect higher accommodation rates and some dryness
     {
       title: "Ndutu – The Heart of the Southern Serengeti (10-day safari)",
       desc: "Deep safari exploration in Southern Serengeti. All-inclusive package with luxury accommodations.",
-      images: ["/images/ndutu.jpg", "/images/ndutu2.jpg", "/images/ndutu3.jpg"],
+      images: ["/images/ndutu1.jpg", "/images/ndutu2.jpeg", "/images/ndutu3.jpg"],
       price: "$4,210",
     },
     {
       title: "Bush2Beach & Cultural Tour (15-day safari)",
       desc: "Ultimate Tanzania adventure combining wildlife, culture, and relaxation. All-inclusive experience.",
-      images: ["/images/bush2beach.jpg", "/images/bush2beach2.jpg"],
+      images: ["/images/bush2beach.jpg", "/images/tour.jpg"],
       price: "$6,420",
     },
   ];
