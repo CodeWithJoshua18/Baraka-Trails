@@ -62,12 +62,7 @@ However, it's peak season — expect higher accommodation rates and some dryness
       images: ["/images/tarangire.jpg", "/images/manyara.jpg", "/images/crater.jpg"],
       price: "$1,140",
     },
-    {
-      title: "Tarangire, Manyara and Ngorongoro crater (3-day safari)",
-      desc: "Similar adventure covering the highlights of Tarangire, Manyara, and Ngorongoro Crater with expert guides.",
-      images: ["/images/manyara.jpg", "/images/manyara2.jpg"],
-      price: "$1,140",
-    },
+    
     {
       title: "Tarangire, Ngorongoro & More Adventures in Serengeti (5-day safari)",
       desc: "Extended safari exploring Serengeti plains along with Tarangire and Ngorongoro highlights.",
