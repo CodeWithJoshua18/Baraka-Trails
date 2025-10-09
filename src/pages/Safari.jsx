@@ -11,13 +11,24 @@ export default function Safari() {
   const [openQuick, setOpenQuick] = useState(null);
   const [scrollY, setScrollY] = useState(0);
   const [carouselIndexes, setCarouselIndexes] = useState({});
+  const [isMobile, setIsMobile] = useState(false);
 
   const toggle = (index) => setOpenIndex(openIndex === index ? null : index);
   const toggleQuick = (index) => setOpenQuick(openQuick === index ? null : index);
 
+  // Detect mobile devices
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -78,7 +89,7 @@ However, it's peak season — expect higher accommodation rates and some dryness
     {
       title: "Bush2Beach & Cultural Tour (15-day safari)",
       desc: "Ultimate Tanzania adventure combining wildlife, culture, and relaxation. All-inclusive experience.",
-      images: ["/images/bush2beach.jpg", "/images/tour.jpg"],
+      images: ["/images/bush2beach.jpg", "/images/bush2beach2.jpg"],
       price: "$6,420",
     },
   ];
@@ -92,8 +103,8 @@ However, it's peak season — expect higher accommodation rates and some dryness
     { title: "Tanzanite Tour", desc: "Learn about Tanzania's famous gemstone and visit mines." },
   ];
 
-  const titleOffset = scrollY * 0.15;
-  const subtitleOffset = scrollY * 0.1;
+  const titleOffset = isMobile ? 0 : scrollY * 0.15;
+  const subtitleOffset = isMobile ? 0 : scrollY * 0.1;
 
   // Preload all carousel images
   useEffect(() => {
@@ -133,9 +144,12 @@ However, it's peak season — expect higher accommodation rates and some dryness
         <div className="absolute inset-0 bg-black/60"></div>
         <motion.div
           style={{ y: -titleOffset }}
-          initial={{ opacity: 0, y: 40 }}
+          initial={{ opacity: 0, y: isMobile ? 20 : 40 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
+          transition={{ 
+            duration: isMobile ? 0.6 : 1,
+            ease: "easeOut"
+          }}
           className="relative z-10 px-6"
         >
           <h1 className="text-4xl md:text-6xl font-bold text-white drop-shadow-lg">
@@ -144,13 +158,28 @@ However, it's peak season — expect higher accommodation rates and some dryness
         </motion.div>
         <motion.p
           style={{ y: -subtitleOffset }}
+          initial={{ opacity: 0, y: isMobile ? 10 : 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ 
+            duration: isMobile ? 0.5 : 0.8,
+            delay: isMobile ? 0.2 : 0.3,
+            ease: "easeOut"
+          }}
           className="relative z-10 mt-4 text-lg md:text-xl italic text-[#D4AF37]"
         >
           Where wilderness meets wonder
         </motion.p>
         <motion.div
-          animate={{ y: [0, 10, 0], opacity: [0, 1, 0] }}
-          transition={{ duration: 2, repeat: Infinity }}
+          initial={{ opacity: 0 }}
+          animate={{ 
+            y: [0, 10, 0], 
+            opacity: [0, 1, 0] 
+          }}
+          transition={{ 
+            duration: 2, 
+            repeat: Infinity,
+            delay: isMobile ? 0.5 : 1
+          }}
           className="absolute bottom-20 text-white flex flex-col items-center space-y-1"
         >
           <ArrowDown className="w-6 h-6 animate-bounce text-[#D4AF37]" />
@@ -172,7 +201,7 @@ However, it's peak season — expect higher accommodation rates and some dryness
         className="relative py-20 mt-12 px-6 md:px-20 flex flex-col items-center justify-center"
         style={{
           backgroundImage: "url('/images/serengeti2.jpg')",
-          backgroundAttachment: "fixed",
+          backgroundAttachment: isMobile ? "scroll" : "fixed",
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
@@ -211,7 +240,6 @@ However, it's peak season — expect higher accommodation rates and some dryness
             {sections.map((section, index) => (
               <motion.div
                 key={index}
-                layout
                 className="bg-white/20 backdrop-blur-lg border border-white/30 rounded-2xl overflow-hidden shadow-md"
               >
                 <button
@@ -225,18 +253,21 @@ However, it's peak season — expect higher accommodation rates and some dryness
                     }`}
                   />
                 </button>
-                {openIndex === index && (
-                  <motion.div
-                    layout
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="px-6 pb-6 !text-black text-base md:text-lg leading-relaxed"
-                  >
-                    {section.content}
-                  </motion.div>
-                )}
+                <AnimatePresence initial={false}>
+                  {openIndex === index && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3, ease: "easeInOut" }}
+                      className="overflow-hidden"
+                    >
+                      <div className="px-6 pb-6 !text-black text-base md:text-lg leading-relaxed">
+                        {section.content}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </motion.div>
             ))}
           </div>
@@ -336,7 +367,6 @@ However, it's peak season — expect higher accommodation rates and some dryness
           {quickLinks.map((link, index) => (
             <motion.div
               key={index}
-              layout
               className="bg-white/20 backdrop-blur-lg border border-white/30 rounded-2xl overflow-hidden shadow-md"
             >
               <button
@@ -350,18 +380,21 @@ However, it's peak season — expect higher accommodation rates and some dryness
                   }`}
                 />
               </button>
-              {openQuick === index && (
-                <motion.div
-                  layout
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.3 }}
-                  className="px-6 pb-6 !text-black text-base md:text-lg leading-relaxed"
-                >
-                  {link.desc}
-                </motion.div>
-              )}
+              <AnimatePresence initial={false}>
+                {openQuick === index && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.3, ease: "easeInOut" }}
+                    className="overflow-hidden"
+                  >
+                    <div className="px-6 pb-6 !text-black text-base md:text-lg leading-relaxed">
+                      {link.desc}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </motion.div>
           ))}
         </div>
