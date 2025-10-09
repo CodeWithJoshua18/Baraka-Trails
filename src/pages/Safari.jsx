@@ -89,7 +89,7 @@ However, it's peak season — expect higher accommodation rates and some dryness
     {
       title: "Bush2Beach & Cultural Tour (15-day safari)",
       desc: "Ultimate Tanzania adventure combining wildlife, culture, and relaxation. All-inclusive experience.",
-      images: ["/images/bush2beach.jpg", "/images/bush2beach2.jpg"],
+      images: ["/images/bush2beach.jpg", "/images/tour.jpg"],
       price: "$6,420",
     },
   ];
