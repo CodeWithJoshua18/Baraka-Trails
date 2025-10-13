@@ -49,7 +49,7 @@ export default function SmartContacts() {
                            bg-white/40 backdrop-blur-md text-gray-800"
               >
                 <div className="text-[#3E2F1C] font-semibold text-sm mb-1">
-                  Quickly Contact Us
+                   Contact Us
                 </div>
 
                 <a

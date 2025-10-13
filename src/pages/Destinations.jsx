@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import { motion } from 'framer-motion';
 
-const destinationsHeroImage = '/images/9.jpg';
+const destinationsHeroImage = '/images/kili.jpeg';
 
 export default function Destinations() {
   return (
