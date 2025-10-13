@@ -1,7 +1,8 @@
 import React from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
-import Navbar from './components/Navbar';  // ✅ Import Navbar here
+import Navbar from './components/Navbar';
+import SmartContacts from './components/SmartContacts'; // ✅ import here
 
 // Pages
 import Home from './pages/Home';
@@ -19,7 +20,7 @@ const pageVariants = {
   out: { opacity: 0 },
 };
 
-const pageTransition = { 
+const pageTransition = {
   duration: 0.15, // Very fast
   ease: 'linear'
 };
@@ -38,16 +39,17 @@ const AnimatedPage = ({ children }) => (
 
 export default function App() {
   const location = useLocation();
-  
-  // Hide navbar on the enquire page
+
+  // Hide navbar and SmartContacts on the enquire page
   const hideNavbar = location.pathname === '/enquire';
+  const hideSmartContacts = location.pathname === '/enquire';
 
   return (
     <div className="min-h-screen">
       {/* ✅ Navbar stays OUTSIDE animation - prevents cutoff */}
       {!hideNavbar && <Navbar />}
 
-      {/* Animated Routes - only animates page content */}
+      {/* Animated Routes */}
       <AnimatePresence mode="wait">
         <Routes location={location} key={location.pathname}>
           <Route
@@ -108,6 +110,9 @@ export default function App() {
           />
         </Routes>
       </AnimatePresence>
+
+      {/* ✅ SmartContacts stays visible on all pages except /enquire */}
+      {!hideSmartContacts && <SmartContacts />}
     </div>
   );
 }

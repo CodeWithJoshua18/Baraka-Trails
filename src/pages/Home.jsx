@@ -10,6 +10,7 @@ import IntroParagraph from '../components/IntroParagraph';
 import WildebeestCarousel from '../components/WildebeestCarousel';
 import SignatureTours from '../components/SignatureTours';
 import TripAdvisorWidget from '../components/TripAdvisor';
+import SmartContacts from '../components/SmartContacts';
 
 export default function Home() {
   return (
@@ -23,6 +24,7 @@ export default function Home() {
       <ConnectSection />
       <WhyChoose />
       <TripAdvisorWidget />
+      <SmartContacts />
       <Footer />
     </div>
   );
