@@ -12,14 +12,17 @@ import About from './pages/About';
 import Blog from './pages/Blog';
 import Enquire from './pages/Enquire';
 
-// Variants for sliding animation
+// Minimal, instant transition
 const pageVariants = {
-  initial: { opacity: 0, x: '100%' },
-  in: { opacity: 1, x: 0 },
-  out: { opacity: 0, x: '-100%' },
+  initial: { opacity: 0 },
+  in: { opacity: 1 },
+  out: { opacity: 0 },
 };
 
-const pageTransition = { duration: 0.5 };
+const pageTransition = { 
+  duration: 0.15, // Very fast
+  ease: 'linear'
+};
 
 const AnimatedPage = ({ children }) => (
   <motion.div
@@ -28,7 +31,6 @@ const AnimatedPage = ({ children }) => (
     exit="out"
     variants={pageVariants}
     transition={pageTransition}
-    className="min-h-screen"
   >
     {children}
   </motion.div>
@@ -41,11 +43,11 @@ export default function App() {
   const hideNavbar = location.pathname === '/enquire';
 
   return (
-    <>
-      {/* ✅ Conditionally render Navbar (hidden on /enquire) */}
+    <div className="min-h-screen">
+      {/* ✅ Navbar stays OUTSIDE animation - prevents cutoff */}
       {!hideNavbar && <Navbar />}
 
-      {/* Animated Routes */}
+      {/* Animated Routes - only animates page content */}
       <AnimatePresence mode="wait">
         <Routes location={location} key={location.pathname}>
           <Route
@@ -106,6 +108,6 @@ export default function App() {
           />
         </Routes>
       </AnimatePresence>
-    </>
+    </div>
   );
 }

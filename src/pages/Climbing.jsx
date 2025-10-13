@@ -1,7 +1,6 @@
 // src/pages/Climbing.jsx
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Navbar from '../components/Navbar';
 import { motion } from 'framer-motion';
 
 const climbingHeroImage = '/images/8.jpg';
@@ -9,18 +8,16 @@ const climbingHeroImage = '/images/8.jpg';
 export default function Climbing() {
   return (
     <div className="relative min-h-screen">
-      <Navbar />
-
       <section
         className="relative w-full h-screen flex items-center justify-center bg-cover bg-center"
         style={{ backgroundImage: `url(${climbingHeroImage})` }}
       >
-        <div className="absolute inset-0 bg-black/40"></div>
+        <div className="absolute inset-0 bg-black/40 z-0"></div>
         <motion.div
-          initial={{ opacity: 0, x: 50 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8 }}
-          className="relative z-10 text-center max-w-3xl px-6"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+          className="relative z-[1] text-center max-w-3xl px-6"
         >
           <h1 className="text-4xl md:text-6xl font-bold text-[#D4AF37]">
             Climbing Kilimanjaro

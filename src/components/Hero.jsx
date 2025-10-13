@@ -10,7 +10,7 @@ const slides = [
   },
   {
     title: "Journey Through the Wild",
-    desc: "Embark on immersive safaris across Africa’s legendary landscapes.",
+    desc: "Embark on immersive safaris across Africa's legendary landscapes.",
     btn: "Plan Your Safari",
     href: "#safari",
   },
@@ -30,17 +30,29 @@ const slides = [
 
 const Hero = () => {
   const [index, setIndex] = useState(0);
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const intervalRef = useRef(null);
+  const touchStartX = useRef(0);
+  const touchEndX = useRef(0);
 
+  // Handle responsive layout with debounce
   useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth < 768);
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    let resizeTimeout;
+    const handleResize = () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        setIsMobile(window.innerWidth < 768);
+      }, 300);
+    };
+
+    window.addEventListener("resize", handleResize, { passive: true });
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      clearTimeout(resizeTimeout);
+    };
   }, []);
 
-  // Auto text transition every 5s
+  // Auto slide change
   useEffect(() => {
     intervalRef.current = setInterval(() => {
       setIndex((prev) => (prev + 1) % slides.length);
@@ -48,38 +60,45 @@ const Hero = () => {
     return () => clearInterval(intervalRef.current);
   }, []);
 
-  const handleSwipe = (direction) => {
-    if (direction === "left") setIndex((prev) => (prev + 1) % slides.length);
-    if (direction === "right") setIndex((prev) => (prev - 1 + slides.length) % slides.length);
+  // Touch swipe handlers for mobile
+  const handleTouchStart = (e) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = (e) => {
+    touchEndX.current = e.changedTouches[0].clientX;
+    const diff = touchStartX.current - touchEndX.current;
+
+    if (Math.abs(diff) > 50) {
+      if (diff > 0) {
+        // Swiped left
+        setIndex((prev) => (prev + 1) % slides.length);
+      } else {
+        // Swiped right
+        setIndex((prev) => (prev - 1 + slides.length) % slides.length);
+      }
+    }
   };
 
   return (
     <section
       className="relative w-full h-screen overflow-hidden bg-cover bg-center"
       style={{
-        backgroundImage: `url('/images/3.jpg')`, // replace with your cinematic image
-        willChange: "transform", // isolates layout to prevent Navbar reflow
+        backgroundImage: `url('/images/3.jpg')`,
       }}
+      onTouchStart={isMobile ? handleTouchStart : undefined}
+      onTouchEnd={isMobile ? handleTouchEnd : undefined}
     >
-      {/* Overlay for readability */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/50 to-black/70" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/50 to-black/70 z-0"></div>
 
-      {/* Text Carousel */}
-      <div className="relative z-10 flex flex-col items-center justify-center h-full px-6 text-center text-white">
+      <div className="relative z-[1] flex flex-col items-center justify-center h-full px-6 text-center text-white">
         <AnimatePresence mode="wait">
           <motion.div
             key={index}
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -30 }}
-            transition={{ duration: 0.8, ease: "easeInOut" }}
-            drag={isMobile ? "x" : false}
-            dragConstraints={{ left: 0, right: 0 }}
-            dragElastic={0.2}
-            onDragEnd={(e, info) => {
-              if (info.offset.x < -50) handleSwipe("left");
-              if (info.offset.x > 50) handleSwipe("right");
-            }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.4, ease: "easeInOut" }}
             className="max-w-2xl mx-auto space-y-6"
           >
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-[#D4AF37] leading-tight drop-shadow-2xl">
@@ -88,6 +107,8 @@ const Hero = () => {
             <p className="text-lg sm:text-xl text-white/90 leading-relaxed">
               {slides[index].desc}
             </p>
+
+            {/* ✅ Fixed <a> tag */}
             <a
               href={slides[index].href}
               className="inline-block px-8 py-3 bg-[#D4AF37] text-[#3E2F1C] font-semibold rounded-lg hover:bg-[#C49E2C] transition-all shadow-lg"
@@ -97,8 +118,8 @@ const Hero = () => {
           </motion.div>
         </AnimatePresence>
 
-        {/* Dots Navigation */}
-        <div className="absolute bottom-10 flex justify-center gap-3">
+        {/* Navigation dots */}
+        <div className="absolute bottom-10 flex justify-center gap-3 z-[1]">
           {slides.map((_, i) => (
             <button
               key={i}
@@ -107,6 +128,7 @@ const Hero = () => {
                 i === index ? "bg-[#D4AF37] scale-110" : "bg-white/60 hover:bg-white"
               }`}
               aria-label={`Go to slide ${i + 1}`}
+              type="button"
             />
           ))}
         </div>
@@ -115,5 +137,4 @@ const Hero = () => {
   );
 };
 
-// ✅ Memoized to prevent unnecessary re-renders affecting Navbar
 export default memo(Hero);
