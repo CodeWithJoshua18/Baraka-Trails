@@ -31,6 +31,7 @@ const Navbar = () => {
   }, [location.pathname]);
 
   const navLinks = [
+    {name: 'Home', path:'/'},
     { name: 'Climbing Kilimanjaro', path: '/climbing' },
     { name: 'Safari', path: '/safari' },
     { name: 'Destinations', path: '/destinations' },
