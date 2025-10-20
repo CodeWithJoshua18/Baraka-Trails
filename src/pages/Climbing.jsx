@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
@@ -304,6 +303,163 @@ const ROUTES = [
         "Quality mess tents, sleeping pads, oxygen tank",
       ],
       excludes: ["Crew tips", "Travel insurance", "International flights"],
+    },
+  },
+
+  /* === NEW: Mount Meru (4 Days) === */
+  {
+    id: "meru",
+    title: "Mount Meru — 4 Days",
+    tagline:
+      "Kilimanjaro’s little brother — perfect acclimatization climb with wildlife in Arusha National Park.",
+    price: "$1,260",
+    image: "/images/meru.jpeg",
+    summary: [
+      "Duration: 4 days",
+      "Height: 4,562 m (Socialist Peak)",
+      "Good for: Acclimatization & wildlife lovers",
+    ],
+    full: {
+      itinerary: [
+        {
+          day: "Day 1",
+          title: "Arrival – Arusha to Momella Gate – Miriakamba Hut",
+          text:
+            "Transfer from Arusha to Momella Gate in Arusha National Park. Trek through open grassland and montane forest to Miriakamba Hut. Expect wildlife sightings (buffalo, giraffe, colobus monkeys) en route.",
+          elevation: "Momella Gate 1,500 m → Miriakamba Hut 2,541 m",
+          distance: "6–10 km",
+          hikingTime: "4–6 hours",
+          habitat: "Montane Forest",
+          meals: "Lunch, Dinner",
+        },
+        {
+          day: "Day 2",
+          title: "Miriakamba Hut → Saddle Hut",
+          text:
+            "Short but steep ascent through mountain forest to the Saddle Hut beneath Little Meru. Afternoon optional walk to Little Meru for sunset views.",
+          elevation: "2,541 m → 3,570 m",
+          distance: "6–8 km",
+          hikingTime: "3–5 hours",
+          habitat: "Heather & Moorland",
+          meals: "Breakfast, Lunch, Dinner",
+        },
+        {
+          day: "Day 3",
+          title: "Saddle Hut → Summit (Socialist Peak) → Saddle Hut",
+          text:
+            "Very early start (1–2 am) for the summit push to Socialist Peak (4,562 m). Enjoy sunrise views over Kilimanjaro, then descend to Saddle Hut and on to Miriakamba Hut.",
+          elevation: "3,570 m → 4,562 m → 2,541 m",
+          distance: "15–20 km (up & down)",
+          hikingTime: "10–12 hours",
+          habitat: "Alpine Desert → Crater rim",
+          meals: "Breakfast, Lunch, Dinner",
+        },
+        {
+          day: "Day 4",
+          title: "Miriakamba Hut → Momella Gate – Transfer to Arusha",
+          text:
+            "Leisurely descent through forest to Momella Gate. Transfer back to Arusha for a hot shower and rest; conclude trek with tips to crew.",
+          elevation: "2,541 m → 1,500 m",
+          distance: "6–10 km",
+          hikingTime: "2–5 hours",
+          habitat: "Forest",
+          meals: "Breakfast, Lunch",
+        },
+      ],
+      includes: [
+        "Airport pick up and drop off (on request)",
+        "All transfers to/from Momella Gate",
+        "Accommodation before & after the climb (full board)",
+        "All trekking fees & permits",
+        "Guides, porters, cooks & park fees",
+        "Sleeping mats, hot water where available",
+      ],
+      excludes: [
+        "Crew tips",
+        "Travel insurance",
+        "International & local flights",
+        "Personal gear (optional)",
+      ],
+      planningHighlights:
+        "Recommended 2–4 weeks of fitness prep; check vaccinations; travel insurance covering trekking.",
+    },
+  },
+
+  /* === NEW: Ol Doinyo Lengai (3 Days) === */
+  {
+    id: "oldoinyo",
+    title: "Ol Doinyo Lengai — 3 Days",
+    tagline:
+      "The 'Mountain of God' — active natrocarbonatite volcano and night summit for sunrise views.",
+    price: "Contact for price",
+    image: "/images/oldoinyo.jpg",
+    summary: [
+      "Duration: 3 days",
+      "Difficulty: Steep & short night climb",
+      "Good for: Adventurous trekkers & cultural visits to Lake Natron",
+    ],
+    full: {
+      itinerary: [
+        {
+          day: "Arrival day",
+          title: "Arusha – Transfer to Hotel",
+          text:
+            "Arrive at Kilimanjaro International Airport; transfer to accommodation in Arusha and pre-trip briefing.",
+          elevation: "Arusha ~1,400 m",
+          distance: "—",
+          hikingTime: "—",
+          habitat: "Town / Lowland",
+          meals: "Dinner",
+        },
+        {
+          day: "Day 1",
+          title: "Arusha – Lake Natron (drive) – Optional evening activities",
+          text:
+            "Drive to Lake Natron (~4 hours). Visit the lake to see flamingos and local birdlife; optional cultural visits. Rest and prepare for the night climb.",
+          elevation: "Lake Natron area ~600 m",
+          distance: "Drive ~200 km",
+          hikingTime: "—",
+          habitat: "Rift Valley / Semi-desert",
+          meals: "Breakfast, Lunch, Dinner",
+        },
+        {
+          day: "Day 2",
+          title: "Night Climb – Summit at sunrise – Descend to base",
+          text:
+            "Start midnight – 2am for the steep ascent to the summit (2,962 m) to catch sunrise. After summit and photos, descend to base for rest and refreshments.",
+          elevation: "Lake Natron ~600 m → Summit 2,962 m → back",
+          distance: "Approx. 7 km up, 3–5 hours up, quicker descent",
+          hikingTime: "5–8 hours (up & down)",
+          habitat: "Volcanic slopes / semi-desert",
+          meals: "Breakfast, Lunch, Dinner",
+        },
+        {
+          day: "Day 3",
+          title: "Drive back to Arusha – Departure or onward travel",
+          text:
+            "Morning rest or short local exploration at Lake Natron, then drive back to Arusha. Option to extend trip to Ngorongoro / Serengeti.",
+          elevation: "Return to Arusha",
+          distance: "Drive ~200 km",
+          hikingTime: "—",
+          habitat: "Road transfer",
+          meals: "Breakfast, Lunch",
+        },
+      ],
+      includes: [
+        "Airport pick up (on request) & all transfers",
+        "Accommodation on arrival & after the climb (full board)",
+        "All trekking fees & local guides (including Maasai guide)",
+        "Guides, porters where applicable, meals & water",
+        "Park fees and permits where applicable",
+      ],
+      excludes: [
+        "Crew tips",
+        "Travel insurance",
+        "International & local flights",
+        "Personal gear (optional)",
+      ],
+      planningHighlights:
+        "Climb is steep and starts at night — good fitness recommended. Bring warm layers for summit, and check local conditions. Cultural visits to Maasai communities can be arranged.",
     },
   },
 
@@ -719,8 +875,8 @@ export default function Climbing() {
                             {/* Includes / Excludes */}
                             <div className="grid md:grid-cols-2 gap-4">
                               <div>
-                                <h5 className="font-semibold">Price & Includes</h5>
-                                <div className="mt-2 text-sm text-[#5A4B3A]">
+                                <h5 className="font-semibold !text-[#5A4B3A]">Price & Includes</h5>
+                                <div className="mt-2 text-sm !text-[#5A4B3A]">
                                   <div className="mb-2">Price: <strong className="!text-[#3E2F1C]">{route.price}</strong></div>
                                   <ul className="list-disc pl-5 space-y-1">
                                     {(route.full.includes || []).map((inc, ii) => (
@@ -731,7 +887,7 @@ export default function Climbing() {
                               </div>
 
                               <div>
-                                <h5 className="font-semibold">Not Included</h5>
+                                <h5 className="font-semibold !text-[#5A4B3A]">Not Included</h5>
                                 <div className="mt-2 text-sm !text-[#5A4B3A]">
                                   <ul className="list-disc pl-5 space-y-1">
                                     {(route.full.excludes || []).map((ex, ii) => (
@@ -747,7 +903,7 @@ export default function Climbing() {
 
                             {/* Planning checklist */}
                             <div>
-                              <h5 className="font-semibold">Planning & Checklist</h5>
+                              <h5 className="font-semibold !text-[#5A4B3A]">Planning & Checklist</h5>
                               <div className="mt-2 text-sm !text-[#5A4B3A]">
                                 <p className=" !text-[#5A4B3A]">{route.full.planningHighlights || "See details above for training, visas, insurance, and gear."}</p>
                                 {/* You can expand this area with more checklist items if desired */}
