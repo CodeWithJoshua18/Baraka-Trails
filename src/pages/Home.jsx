@@ -10,7 +10,6 @@ import SignatureTours from '../components/SignatureTours';
 import TripAdvisorWidget from '../components/TripAdvisor';
 
 export default function Home() {
-  console.log('🔴 HOME RENDERED AT:', new Date().toLocaleTimeString());
   
   return (
     <div className="relative">

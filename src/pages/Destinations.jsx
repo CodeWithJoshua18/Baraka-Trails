@@ -57,7 +57,7 @@ export default function Destinations() {
       </div>
 
       <div className="p-10 text-center max-w-3xl mx-auto px-4">
-        <h2 className="text-3xl font-bold text-[#3E2F1C]">Destination Highlights</h2>
+        <h2 className="text-3xl font-bold !text-[#3E2F1C]">Destination Highlights</h2>
         <p className="mt-4 text-lg text-[#5A4B3A]">
           From pristine beaches to remote wildlife reserves, discover destinations curated for unforgettable experiences.
         </p>

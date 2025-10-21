@@ -13,7 +13,6 @@ import Blog from './pages/Blog';
 import Enquire from './pages/Enquire';
 
 export default function App() {
-  console.log('🟢 APP RENDERED AT:', new Date().toLocaleTimeString());
   
   const location = useLocation();
 
