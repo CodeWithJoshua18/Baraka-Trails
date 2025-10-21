@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, memo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Mountain } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import Button from './Button';
 
 const Navbar = memo(() => {
@@ -10,16 +10,13 @@ const Navbar = memo(() => {
   const scrollTimeoutRef = useRef(null);
 
   useEffect(() => {
-    // Debounced scroll handler to prevent excessive re-renders
     const handleScroll = () => {
       clearTimeout(scrollTimeoutRef.current);
       scrollTimeoutRef.current = setTimeout(() => {
         const scrolled = window.scrollY > 50;
-        // Only update state if value actually changes
-        setIsScrolled(prev => prev !== scrolled ? scrolled : prev);
-      }, 100); // Increased debounce
+        setIsScrolled(prev => (prev !== scrolled ? scrolled : prev));
+      }, 100);
     };
-    
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => {
       window.removeEventListener('scroll', handleScroll);
@@ -27,13 +24,12 @@ const Navbar = memo(() => {
     };
   }, []);
 
-  // Close mobile menu on route change
   useEffect(() => {
     setIsMobileMenuOpen(false);
   }, [location.pathname]);
 
   const navLinks = [
-    {name: 'Home', path:'/'},
+    { name: 'Home', path: '/' },
     { name: 'Climbing Kilimanjaro', path: '/climbing' },
     { name: 'Safari', path: '/safari' },
     { name: 'Destinations', path: '/destinations' },
@@ -45,19 +41,27 @@ const Navbar = memo(() => {
 
   return (
     <>
-      <nav className={`fixed top-0 left-0 w-screen z-[9999] transition-all duration-300 ${
-        isScrolled ? 'bg-white/90 shadow-lg py-4' : 'bg-transparent py-6'
-      }`}>
+      <nav
+        className={`fixed top-0 left-0 w-screen z-[9999] transition-all duration-300 ${
+          isScrolled ? 'bg-white/90 shadow-lg py-3' : 'bg-transparent py-5'
+        }`}
+      >
         <div className="flex items-center justify-between px-4 md:px-8 max-w-screen-2xl mx-auto">
-          {/* Logo */}
-         <Link to="/" className={`flex items-center gap-2 ${textColor} flex-shrink-0`}>
-        <img 
-          src="/images/logo.jpg" 
-          alt="Baraka Trails Logo" 
-          className="w-15 h-15 object-contain"
-        />
-        <span className="text-xl font-bold">Baraka Trails</span>
-</Link>
+          {/* Logo + Text */}
+         <Link 
+          to="/" 
+          className={`flex items-center gap-3 ${textColor} flex-shrink-0`}
+          >
+          <img 
+            src="/images/logo2.png" 
+            alt="Baraka Trails Logo" 
+            className="w-14 h-14 md:w-16 md:h-16 object-contain"
+            />
+            <span className="font-extrabold tracking-widest uppercase text-lg md:text-xl">
+                    Baraka Trails
+            </span>
+        </Link>
+
 
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center gap-8">
@@ -72,7 +76,9 @@ const Navbar = memo(() => {
               </Link>
             ))}
             <Link to="/enquire">
-              <Button className="bg-[#D4AF37] text-[#3E2F1C] hover:bg-[#C49E2C]">Enquire</Button>
+              <Button className="bg-[#D4AF37] text-[#3E2F1C] hover:bg-[#C49E2C]">
+                Enquire
+              </Button>
             </Link>
           </div>
 
@@ -111,9 +117,7 @@ const Navbar = memo(() => {
           ))}
 
           <Link to="/enquire">
-            <Button
-              className="bg-[#D4AF37] text-[#3E2F1C] hover:bg-[#C49E2C] px-8 py-3 font-bold"
-            >
+            <Button className="bg-[#D4AF37] text-[#3E2F1C] hover:bg-[#C49E2C] px-8 py-3 font-bold">
               Enquire
             </Button>
           </Link>
@@ -124,5 +128,4 @@ const Navbar = memo(() => {
 });
 
 Navbar.displayName = 'Navbar';
-
 export default Navbar;
