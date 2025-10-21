@@ -14,7 +14,7 @@ const Navbar = memo(() => {
       clearTimeout(scrollTimeoutRef.current);
       scrollTimeoutRef.current = setTimeout(() => {
         const scrolled = window.scrollY > 50;
-        setIsScrolled(prev => (prev !== scrolled ? scrolled : prev));
+        setIsScrolled((prev) => (prev !== scrolled ? scrolled : prev));
       }, 100);
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -48,20 +48,19 @@ const Navbar = memo(() => {
       >
         <div className="flex items-center justify-between px-4 md:px-8 max-w-screen-2xl mx-auto">
           {/* Logo + Text */}
-         <Link 
-          to="/" 
-          className={`flex items-center gap-3 ${textColor} flex-shrink-0`}
+          <Link
+            to="/"
+            className={`flex items-center gap-3 ${textColor} flex-shrink-0`}
           >
-          <img 
-            src="/images/logo2.png" 
-            alt="Baraka Trails Logo" 
-            className="w-14 h-14 md:w-16 md:h-16 object-contain"
+            <img
+              src="/images/logo2.png"
+              alt="Baraka Trails Logo"
+              className="w-14 h-14 md:w-16 md:h-16 object-contain"
             />
             <span className="font-extrabold tracking-widest uppercase text-lg md:text-xl">
-                    Baraka Trails
+              Baraka Trails
             </span>
-        </Link>
-
+          </Link>
 
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center gap-8">
@@ -85,44 +84,57 @@ const Navbar = memo(() => {
           {/* Mobile Menu Toggle */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className={`md:hidden relative z-[10002] flex-shrink-0 ${textColor} transition-colors`}
+            className={`md:hidden relative z-[10002] flex-shrink-0 ${textColor} transition-transform duration-300`}
             aria-label="Toggle menu"
             aria-expanded={isMobileMenuOpen}
           >
-            {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            {isMobileMenuOpen ? (
+              <X className="w-6 h-6 transform rotate-180 transition-transform duration-300" />
+            ) : (
+              <Menu className="w-6 h-6 transform rotate-0 transition-transform duration-300" />
+            )}
           </button>
         </div>
       </nav>
 
-      {/* Mobile Menu Full-Screen with Blur Effect */}
-      {isMobileMenuOpen && (
-        <div className="fixed inset-0 z-[10000] flex flex-col items-center justify-center gap-8 backdrop-blur-xl bg-black/60 pt-20">
-          {/* Close button inside menu */}
-          <button
-            onClick={() => setIsMobileMenuOpen(false)}
-            className="absolute top-6 right-4 text-white z-[10001] p-2"
-            aria-label="Close menu"
+      {/* Mobile Menu Smooth Transition */}
+      <div
+        className={`fixed inset-0 z-[10000] flex flex-col items-center justify-center gap-8 backdrop-blur-xl bg-black/60 transition-all duration-500 ease-in-out ${
+          isMobileMenuOpen
+            ? 'opacity-100 translate-y-0 visible'
+            : 'opacity-0 -translate-y-5 invisible'
+        }`}
+      >
+        {/* Close button inside menu */}
+        <button
+          onClick={() => setIsMobileMenuOpen(false)}
+          className="absolute top-6 right-4 text-white z-[10001] p-2"
+          aria-label="Close menu"
+        >
+          <X className="w-8 h-8" />
+        </button>
+
+        {/* Animated Links */}
+        {navLinks.map((link, index) => (
+          <Link
+            key={link.name}
+            to={link.path}
+            className={`text-white text-2xl font-bold hover:text-[#D4AF37] transition-all duration-300 transform ${
+              isMobileMenuOpen
+                ? 'opacity-100 translate-y-0 delay-[' + index * 100 + 'ms]'
+                : 'opacity-0 translate-y-4'
+            }`}
           >
-            <X className="w-8 h-8" />
-          </button>
-
-          {navLinks.map((link) => (
-            <Link
-              key={link.name}
-              to={link.path}
-              className="text-white text-2xl font-bold hover:text-[#D4AF37] transition-colors"
-            >
-              {link.name}
-            </Link>
-          ))}
-
-          <Link to="/enquire">
-            <Button className="bg-[#D4AF37] text-[#3E2F1C] hover:bg-[#C49E2C] px-8 py-3 font-bold">
-              Enquire
-            </Button>
+            {link.name}
           </Link>
-        </div>
-      )}
+        ))}
+
+        <Link to="/enquire">
+          <Button className="bg-[#D4AF37] text-[#3E2F1C] hover:bg-[#C49E2C] px-8 py-3 font-bold transition-all duration-300">
+            Enquire
+          </Button>
+        </Link>
+      </div>
     </>
   );
 });
