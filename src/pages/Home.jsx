@@ -1,6 +1,4 @@
-
 import React from 'react';
-import Navbar from '../components/Navbar';
 import Hero from '../components/Hero';
 import ImageCarousel from '../components/ImageCarousel';
 import ConnectSection from '../components/ConnectSection';
@@ -10,22 +8,21 @@ import IntroParagraph from '../components/IntroParagraph';
 import WildebeestCarousel from '../components/WildebeestCarousel';
 import SignatureTours from '../components/SignatureTours';
 import TripAdvisorWidget from '../components/TripAdvisor';
-import SmartContacts from '../components/SmartContacts';
 
 export default function Home() {
+  console.log('🔴 HOME RENDERED AT:', new Date().toLocaleTimeString());
+  
   return (
     <div className="relative">
-      <Navbar />
       <Hero />
       <IntroParagraph />
-      <WildebeestCarousel />
+       <WildebeestCarousel />
       <SignatureTours />
       <ImageCarousel />
       <ConnectSection />
       <WhyChoose />
       <TripAdvisorWidget />
-      <SmartContacts />
-      <Footer />
+      <Footer /> 
     </div>
   );
 }

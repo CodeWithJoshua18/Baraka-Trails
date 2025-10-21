@@ -1,8 +1,7 @@
 import React from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
-import { AnimatePresence, motion } from 'framer-motion';
 import Navbar from './components/Navbar';
-import SmartContacts from './components/SmartContacts'; // ✅ import here
+import SmartContacts from './components/SmartContacts';
 
 // Pages
 import Home from './pages/Home';
@@ -13,105 +12,28 @@ import About from './pages/About';
 import Blog from './pages/Blog';
 import Enquire from './pages/Enquire';
 
-// Minimal, instant transition
-const pageVariants = {
-  initial: { opacity: 0 },
-  in: { opacity: 1 },
-  out: { opacity: 0 },
-};
-
-const pageTransition = {
-  duration: 0.15, // Very fast
-  ease: 'linear'
-};
-
-const AnimatedPage = ({ children }) => (
-  <motion.div
-    initial="initial"
-    animate="in"
-    exit="out"
-    variants={pageVariants}
-    transition={pageTransition}
-  >
-    {children}
-  </motion.div>
-);
-
 export default function App() {
+  console.log('🟢 APP RENDERED AT:', new Date().toLocaleTimeString());
+  
   const location = useLocation();
 
-  // Hide navbar and SmartContacts on the enquire page
   const hideNavbar = location.pathname === '/enquire';
   const hideSmartContacts = location.pathname === '/enquire';
 
   return (
     <div className="min-h-screen">
-      {/* ✅ Navbar stays OUTSIDE animation - prevents cutoff */}
       {!hideNavbar && <Navbar />}
 
-      {/* Animated Routes */}
-      <AnimatePresence mode="wait">
-        <Routes location={location} key={location.pathname}>
-          <Route
-            path="/"
-            element={
-              <AnimatedPage>
-                <Home />
-              </AnimatedPage>
-            }
-          />
-          <Route
-            path="/safari"
-            element={
-              <AnimatedPage>
-                <Safari />
-              </AnimatedPage>
-            }
-          />
-          <Route
-            path="/climbing"
-            element={
-              <AnimatedPage>
-                <Climbing />
-              </AnimatedPage>
-            }
-          />
-          <Route
-            path="/destinations"
-            element={
-              <AnimatedPage>
-                <Destinations />
-              </AnimatedPage>
-            }
-          />
-          <Route
-            path="/about"
-            element={
-              <AnimatedPage>
-                <About />
-              </AnimatedPage>
-            }
-          />
-          <Route
-            path="/blog"
-            element={
-              <AnimatedPage>
-                <Blog />
-              </AnimatedPage>
-            }
-          />
-          <Route
-            path="/enquire"
-            element={
-              <AnimatedPage>
-                <Enquire />
-              </AnimatedPage>
-            }
-          />
-        </Routes>
-      </AnimatePresence>
+      <Routes location={location}>
+        <Route path="/" element={<Home />} />
+        <Route path="/safari" element={<Safari />} />
+        <Route path="/climbing" element={<Climbing />} />
+        <Route path="/destinations" element={<Destinations />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/blog" element={<Blog />} />
+        <Route path="/enquire" element={<Enquire />} />
+      </Routes>
 
-      {/* ✅ SmartContacts stays visible on all pages except /enquire */}
       {!hideSmartContacts && <SmartContacts />}
     </div>
   );
