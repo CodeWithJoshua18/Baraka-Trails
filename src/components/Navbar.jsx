@@ -50,10 +50,14 @@ const Navbar = memo(() => {
       }`}>
         <div className="flex items-center justify-between px-4 md:px-8 max-w-screen-2xl mx-auto">
           {/* Logo */}
-          <Link to="/" className={`flex items-center gap-2 ${textColor} flex-shrink-0`}>
-            <Mountain className="w-8 h-8 text-[#D4AF37]" />
-            <span className="text-xl font-bold">Baraka Trails</span>
-          </Link>
+         <Link to="/" className={`flex items-center gap-2 ${textColor} flex-shrink-0`}>
+        <img 
+          src="/images/logo.jpg" 
+          alt="Baraka Trails Logo" 
+          className="w-15 h-15 object-contain"
+        />
+        <span className="text-xl font-bold">Baraka Trails</span>
+</Link>
 
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center gap-8">
