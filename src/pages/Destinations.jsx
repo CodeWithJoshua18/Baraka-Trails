@@ -204,14 +204,27 @@ export default function Destinations() {
       </div>
 
       {/* Punchline */}
-      <div className="text-center mt-10 px-6">
-        <h2 className="text-3xl md:text-4xl font-bold !text-[#3E2F1C]">
-          Why Choose an African Safari?
-        </h2>
-        <p className="mt-4 text-lg text-[#5A4B3A] max-w-2xl mx-auto">
-          A journey through Africa is more than travel — it's a feeling. It's the rhythm of the wild, the colors of culture, and the spirit of discovery that stays with you long after you return home.
-        </p>
-      </div>
+      <div className="py-16 px-6 bg-gradient-to-b from-white to-gray-50">
+  <div className="max-w-4xl mx-auto text-center">
+    <h2 className="text-3xl md:text-5xl font-bold !text-[#3E2F1C] mb-6 leading-tight">
+      Why Choose an African Safari?
+    </h2>
+    
+    <div className="w-24 h-1 bg-[#D4AF37] mx-auto mb-8"></div>
+    
+    <p className="text-lg md:text-xl text-[#5A4B3A] leading-relaxed mb-6">
+      A journey through Africa is more than travel — it's a <span className="font-semibold text-[#D4AF37]">feeling</span>. 
+    </p>
+    
+    <p className="text-lg md:text-xl text-[#5A4B3A] leading-relaxed mb-6">
+      It's the rhythm of the wild, the colors of culture, and the spirit of discovery that stays with you long after you return home.
+    </p>
+    
+    <p className="text-base md:text-lg text-[#5A4B3A] leading-relaxed max-w-3xl mx-auto">
+      Our destination itineraries give you the freedom to travel at your own pace, with unlimited opportunities to discover the very best of Tanzania, Kenya, and Uganda. From iconic game parks to cultural encounters and gorilla trekking, <span className="font-semibold text-[#3E2F1C]">Baraka Trails</span> crafts journeys that go beyond the ordinary.
+    </p>
+  </div>
+</div>
 
       {/* Destination Cards */}
       <motion.div 
