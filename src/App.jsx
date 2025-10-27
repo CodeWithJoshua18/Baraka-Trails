@@ -8,6 +8,7 @@ import Home from './pages/Home';
 import Safari from './pages/Safari';
 import Climbing from './pages/Climbing';
 import Destinations from './pages/Destinations';
+import Kenya from './pages/destinations/Kenya';
 import About from './pages/About';
 import Blog from './pages/Blog';
 import Enquire from './pages/Enquire';
@@ -28,6 +29,7 @@ export default function App() {
         <Route path="/safari" element={<Safari />} />
         <Route path="/climbing" element={<Climbing />} />
         <Route path="/destinations" element={<Destinations />} />
+        <Route path="/destinations/kenya" element={<Kenya />} />
         <Route path="/about" element={<About />} />
         <Route path="/blog" element={<Blog />} />
         <Route path="/enquire" element={<Enquire />} />

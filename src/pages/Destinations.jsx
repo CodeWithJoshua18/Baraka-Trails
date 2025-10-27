@@ -5,7 +5,7 @@ import Footer from "../components/Footer";
 import { motion, AnimatePresence, useInView } from "framer-motion";
 import { X } from "lucide-react";
 
-const destinationsHeroImage = "/images/safari4.jpg";
+const destinationsHeroImage = "/images/3.jpg";
 
 // Animation variants for scroll reveal
 const fadeInUpVariants = {
