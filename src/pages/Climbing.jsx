@@ -210,7 +210,7 @@ const ROUTES = [
     tagline:
       "Approaches from the north (Kenyan side): quieter, drier, and less-traveled.",
     price: "Typical: $2,250 / person (example price)",
-    image: "/images/8.jpg",
+    image: "/images/4.jpg",
     summary: [
       "Duration: 6–7 days",
       "Difficulty: Moderate",
