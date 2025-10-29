@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import Footer from "../components/Footer";
 
-const climbingHeroImage = "/images/8.jpg";
+const climbingHeroImage = "/images/4.jpg";
 
 /**
  * Route data - concise summary + full itinerary text (long).
