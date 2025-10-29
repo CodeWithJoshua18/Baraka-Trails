@@ -10,6 +10,7 @@ import Climbing from './pages/Climbing';
 import Destinations from './pages/Destinations';
 import Kenya from './pages/destinations/Kenya';
 import Tanzania from './pages/destinations/Tanzania';
+import Uganda from './pages/destinations/Uganda';
 import About from './pages/About';
 import Blog from './pages/Blog';
 import Enquire from './pages/Enquire';
@@ -32,6 +33,7 @@ export default function App() {
         <Route path="/destinations" element={<Destinations />} />
         <Route path="/destinations/kenya" element={<Kenya />} />
         <Route path="/destinations/tanzania" element={<Tanzania />} />
+        <Route path="/destinations/uganda" element={<Uganda />} />
         <Route path="/about" element={<About />} />
         <Route path="/blog" element={<Blog />} />
         <Route path="/enquire" element={<Enquire />} />
